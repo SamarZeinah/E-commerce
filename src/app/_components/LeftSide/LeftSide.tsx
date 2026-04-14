@@ -36,7 +36,7 @@ const isResetPassword = pathname.toLowerCase().includes("reset-password");
             />
 
             {/* TEXT */}
-            <h1 className="text-3xl lg:text-4xl font-bold text-center text-[#1E2939]">
+            <h1 className="text-3xl lg:text-3xl font-bold text-center text-[#1E2939]">
               FreshCart - Your One-Stop Shop for Fresh Products
             </h1>
 
@@ -71,7 +71,7 @@ const isResetPassword = pathname.toLowerCase().includes("reset-password");
         <>
           <div className="flex flex-col items-start max-w-xl w-full">
             {/* TITLE */}
-            <h1 className="text-4xl font-bold text-start text-[#1E2939]">
+            <h1 className="text-3xl font-bold text-start text-[#1E2939]">
               Welcome to <span className="text-[#16A34A]">FreshCart</span>
             </h1>
 
