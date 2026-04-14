@@ -4,6 +4,7 @@ import "./globals.css";
 
 import LayoutContent from "./LayoutContent";
 import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,6 +38,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LayoutContent>{children}</LayoutContent>
+                <Toaster position="top-center" />
+
 
         </body>
     </html>
