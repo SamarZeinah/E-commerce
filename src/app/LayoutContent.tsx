@@ -9,6 +9,7 @@ export default function LayoutContent({
 }: {
   children: React.ReactNode;
 }) {
+  
   const pathname = usePathname();
 
   const isAuth = pathname.startsWith("/Authentication");
