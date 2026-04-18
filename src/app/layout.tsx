@@ -5,6 +5,7 @@ import "./globals.css";
 import LayoutContent from "./LayoutContent";
 import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/AuthContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,14 +35,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-  className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LayoutContent>{children}</LayoutContent>
-                <Toaster position="top-center" />
-
-
-        </body>
+         <AuthProvider>
+        <LayoutContent>
+         {children}
+        </LayoutContent>
+        </AuthProvider>
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }
