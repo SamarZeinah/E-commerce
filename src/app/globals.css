@@ -131,3 +131,6 @@
 body {
   @apply font-sans;
 }
+:root {
+  --font-sans: var(--font-poppins); 
+}
