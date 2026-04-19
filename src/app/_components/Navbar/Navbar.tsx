@@ -15,13 +15,22 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
+    router.push("/Authentication/login");
+  };
   return (
     <header className="w-full border-b relative">
       {/* Top bar */}
-      <div className="hidden lg:flex justify-between items-center px-6 py-2 text-sm bg-gray-50">
+      {/* <div className="hidden lg:flex justify-between items-center px-6 py-2 text-sm bg-gray-50"> */}
+      <div className="hidden lg:block bg-gray-50">
+  <div className="max-w-7xl mx-auto px-4 flex justify-between items-center py-2 text-sm">
         {/* Left side */}
         <div className="flex gap-6 items-center">
           <div className="flex items-center  font-medium">
@@ -61,7 +70,10 @@ const Navbar = () => {
             </div>
 
             {/* Sign out */}
-            <button className="flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition">
+            <button
+              className="flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition cursor-pointer"
+              onClick={handleLogout}
+            >
               <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-500">
                 <LogOut size={16} />
               </div>
@@ -71,8 +83,10 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      </div>
       {/* Main navbar */}
-      <div className="flex items-center justify-between px-4 md:px-6 py-4">
+      {/* <div className="flex items-center justify-between px-4 md:px-6 py-4"> */}
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between py-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img src="/logo.png" alt="logo" className="w-8 h-8" />
@@ -228,7 +242,10 @@ const Navbar = () => {
               <span className="text-sm font-medium text-gray-800">Profile</span>
             </a>
 
-            <button className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-red-500">
+            <button
+              className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-red-500 cursor-pointer"
+              onClick={handleLogout}
+            >
               <div className="w-9 h-9 flex items-center justify-center rounded-full bg-red-100 text-red-500">
                 <LogOut size={18} />
               </div>
