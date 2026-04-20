@@ -112,7 +112,7 @@ const page = () => {
       </form>
 
        <a
-          href="/Authentication/Login"
+          href="/Authentication/login"
           className="text-green-600 font-medium hover:underline"
         >
           Back to Sign In
@@ -120,7 +120,7 @@ const page = () => {
       <p className="text-center text-sm text-gray-600 mt-4">
        Remember your password?{" "}
         <a
-          href="/Authentication/Login"
+          href="/Authentication/login"
           className="text-green-600 font-medium hover:underline"
         >
           Sign In
