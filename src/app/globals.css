@@ -134,3 +134,34 @@ body {
 :root {
   --font-sans: var(--font-poppins); 
 }
+.swiper-pagination-bullet {
+  background-color: white !important;
+  width: 14px !important;
+  height: 14px !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white !important;
+  width: 30px !important;
+  border-radius: 10px !important;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  background: white !important;
+  color: #00C950 !important;
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50 !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px !important;
+  font-weight: bold;
+    transform: scale(0.7);
+      line-height: 1 !important;
+}

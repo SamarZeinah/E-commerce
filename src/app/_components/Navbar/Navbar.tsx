@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ShoppingCart,
   Heart,
@@ -14,78 +14,133 @@ import {
   Gift,
   Mail,
   Phone,
+  UserPlus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+import { useAuth } from "@/context/AuthContext";
 
+const Navbar = () => {
+  const { user, logout, isLoading } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [hideTopBar, setHideTopBar] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHideTopBar(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
     router.push("/Authentication/login");
   };
+
   return (
-    <header className="w-full border-b relative">
-      {/* Top bar */}
-      {/* <div className="hidden lg:flex justify-between items-center px-6 py-2 text-sm bg-gray-50"> */}
-      <div className="hidden lg:block bg-gray-50">
-  <div className="max-w-7xl mx-auto px-4 flex justify-between items-center py-2 text-sm">
-        {/* Left side */}
-        <div className="flex gap-6 items-center">
-          <div className="flex items-center  font-medium">
-            <div className="w-8 h-8 flex items-center  text-green-700">
-              <Truck size={18} />
-            </div>
-            <span>Free Shipping on Orders 500 EGP</span>
-          </div>
-
-          <div className="flex items-center  text-gray-600">
-            <div className="w-8 h-8 flex items-center  text-green-700">
-              <Gift size={18} />
-            </div>
-            <span>New Arrivals Daily</span>
-          </div>
-        </div>
-
-        {/* Right side */}
-        <div className="flex gap-6 items-center text-gray-600">
-          <div className="flex items-center gap-2">
-            <Phone size={16} />
-            <span>+1 (800) 123-4567</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Mail size={16} />
-            <span>support@freshcart.com</span>
-          </div>
-          <div className="flex items-center gap-6">
-            {/* User */}
-            <div className="flex items-center gap-2 text-gray-800">
-              <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600">
-                <User size={16} />
-              </div>
-
-              <span className="font-medium">Samar Zeinah</span>
+    <header className="w-full sticky top-0 z-50 bg-white border-b">
+      {/* TOP BAR*/}
+      <div
+        className={`hidden lg:block bg-gray-50 transition-all duration-300 overflow-hidden ${
+          hideTopBar ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center py-2 text-sm">
+          {/* Left */}
+          <div className="flex gap-6 items-center">
+            <div className="flex items-center font-medium gap-2">
+              <Truck size={18} className="text-green-700" />
+              <span>Free Shipping on Orders 500 EGP</span>
             </div>
 
-            {/* Sign out */}
-            <button
-              className="flex items-center gap-2 text-sm text-red-500 hover:text-red-600 transition cursor-pointer"
-              onClick={handleLogout}
+            <div className="flex items-center text-gray-600 gap-2">
+              <Gift size={18} className="text-green-700" />
+              <span>New Arrivals Daily</span>
+            </div>
+          </div>
+
+          {/* Right */}
+          <div className="flex gap-6 items-center text-gray-600">
+            <a
+              href="tel:+18001234567"
+              className="flex items-center gap-2 cursor-pointer hover:text-green-600 transition"
             >
-              <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-500">
-                <LogOut size={16} />
-              </div>
+              <Phone size={16} />
+              <span>+1 (800) 123-4567</span>
+            </a>
 
-              <span className="hover:underline">Sign Out</span>
-            </button>
+            <a
+              href="mailto:support@freshcart.com"
+              className="flex items-center gap-2 cursor-pointer hover:text-green-600 transition"
+            >
+              <Mail size={16} />
+              <span>support@freshcart.com</span>
+            </a>
+
+            <div className="flex items-center gap-6">
+              {user ? (
+                <div className="flex items-center gap-2 text-gray-800 cursor-pointer hover:text-green-600 transition group">
+                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 group-hover:bg-green-100 group-hover:text-green-600 transition">
+                    <User size={16} />
+                  </div>
+
+                  <span className="font-medium group-hover:text-green-600 transition">
+                    {user.name}
+                  </span>
+                </div>
+              ) : (
+                <button
+                  onClick={() => router.push("/Authentication/login")}
+                  className="flex items-center gap-2 text-gray-800 hover:text-green-700 transition cursor-pointer group"
+                >
+                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 group-hover:bg-green-100 group-hover:text-green-600 transition">
+                    <User size={16} />
+                  </div>
+
+                  <span className="text-sm">Sign In</span>
+                </button>
+              )}
+              {/* <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-red-500 hover:text-red-600"
+              >
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-500">
+                  <LogOut size={16} />
+                </div>
+                <span>Sign Out</span>
+              </button> */}
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-red-500 hover:text-red-600  cursor-pointer"
+                >
+                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-500">
+                    <LogOut size={16} />
+                  </div>
+
+                  <span>Sign Out</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/Authentication/register")}
+                  className="flex items-center gap-2 text-green-600 hover:text-green-700 cursor-pointer"
+                >
+                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <UserPlus size={16} />
+                  </div>
+
+                  <span>Sign Up</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      {/* Main navbar */}
-      {/* <div className="flex items-center justify-between px-4 md:px-6 py-4"> */}
+
+      {/* MAIN NAVBAR*/}
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between py-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -93,7 +148,7 @@ const Navbar = () => {
           <h1 className="text-xl font-bold">FreshCart</h1>
         </div>
 
-        {/* Desktop Search */}
+        {/* Search */}
         <div className="hidden md:flex w-1/3 border rounded-full overflow-hidden">
           <input
             type="text"
@@ -105,25 +160,16 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Desktop Links */}
-        <nav className="hidden md:flex gap-6 text-gray-700 font-medium">
-          <a href="#" className="hover:text-green-600">
-            Home
-          </a>
-          <a href="#" className="hover:text-green-600">
-            Shop
-          </a>
-          <a href="#" className="hover:text-green-600">
-            Categories
-          </a>
-          <a href="#" className="hover:text-green-600">
-            Brands
-          </a>
+        {/* Links */}
+        <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
+          <a href="#" className="hover:text-[#00C950]">Home</a>
+          <a href="#" className="hover:text-[#00C950]">Shop</a>
+          <a href="#">Categories</a>
+          <a href="#">Brands</a>
         </nav>
 
-        {/* Right Side */}
+        {/* Right */}
         <div className="flex items-center gap-3 md:gap-4">
-          {/* Support (desktop only) */}
           <div className="hidden lg:flex items-center gap-2 border-r pr-4">
             <Headphones className="text-green-600" size={20} />
             <div className="flex flex-col leading-tight">
@@ -133,34 +179,37 @@ const Navbar = () => {
               </span>
             </div>
           </div>
-          {/* Icons - ONLY desktop + only when menu closed */}
-          <div
-            className={`hidden md:flex items-center gap-3 md:gap-4 ${open ? "hidden" : ""}`}
-          >
-            <button className="relative">
-              <Heart />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
-                1
-              </span>
-            </button>
 
-            <button>
-              <ShoppingCart />
-            </button>
+          <button>
+            <Heart className="text-gray-700 hover:text-red-600 cursor-pointer"/>
+          </button>
 
-            <button>
-              <User />
-            </button>
-          </div>
+          <button>
+            <ShoppingCart className="text-gray-700 hover:text-blue-600 cursor-pointer" />
+          </button>
 
-          {/* Menu button (mobile only) */}
+          {user ? (
+            <button
+              onClick={() => router.push("/profile")}
+              className="flex items-center justify-center w-9 h-9 rounded-full  transition"
+            >
+              <User className="text-gray-700 hover:text-green-600 cursor-pointer" />
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/Authentication/login")}
+              className="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition  cursor-pointer"
+            >
+              Sign In
+            </button>
+          )}
           <button className="md:hidden" onClick={() => setOpen(!open)}>
             {open ? <X /> : <Menu />}
           </button>
         </div>
       </div>
 
-      {/* Overlay */}
+      {/* OVERLAY */}
       {open && (
         <div
           className="fixed inset-0 bg-black/30 z-40"
@@ -231,7 +280,7 @@ const Navbar = () => {
             </a>
             <div className="border-t my-3" />
 
-            <a
+            {/* <a
               href="/profile"
               className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
             >
@@ -251,7 +300,71 @@ const Navbar = () => {
               </div>
 
               <span className="text-sm font-medium">Sign Out</span>
-            </button>
+            </button> */}
+            {user ? (
+              <>
+                {/* Profile */}
+                <a
+                  href="/profile"
+                  className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
+                >
+                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <User size={18} />
+                  </div>
+
+                  <span className="text-sm font-medium text-gray-800">
+                    Profile
+                  </span>
+                </a>
+
+                {/* Sign Out */}
+                <button
+                  className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-red-500 cursor-pointer"
+                  onClick={() => {
+                    logout();
+                    setOpen(false);
+                  }}
+                >
+                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-red-100 text-red-500">
+                    <LogOut size={18} />
+                  </div>
+
+                  <span className="text-sm font-medium">Sign Out</span>
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Sign In */}
+                <button
+                  onClick={() => {
+                    router.push("/Authentication/login");
+                    setOpen(false);
+                  }}
+                  className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-green-600"
+                >
+                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <User size={18} />
+                  </div>
+
+                  <span className="text-sm font-medium">Sign In</span>
+                </button>
+
+                {/* Sign Up */}
+                <button
+                  onClick={() => {
+                    router.push("/Authentication/register");
+                    setOpen(false);
+                  }}
+                  className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-green-600"
+                >
+                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                    <UserPlus size={18} />
+                  </div>
+
+                  <span className="text-sm font-medium">Sign Up</span>
+                </button>
+              </>
+            )}
           </div>
 
           {/* Support */}
