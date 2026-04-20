@@ -18,6 +18,7 @@ export default function LeftSide() {
 
   const isLogin = pathname.toLowerCase().includes("login");
   const isRegister = pathname.toLowerCase().includes("register");
+  const isForgetpassword = pathname.toLowerCase().includes("/forgot-password");
 const isResetPassword = pathname.toLowerCase().includes("reset-password");
 
   return (
@@ -155,7 +156,7 @@ const isResetPassword = pathname.toLowerCase().includes("reset-password");
         </>
       )}
       {
-        isResetPassword &&(<>
+        isResetPassword || isForgetpassword &&(<>
         <div className="flex flex-col items-center max-w-xl w-full">
 
       {/* IMAGE */}
