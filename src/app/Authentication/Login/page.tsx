@@ -179,7 +179,7 @@ const page = () => {
       <p className="text-center text-sm text-gray-600 mt-4">
         New to FreshCart?{" "}
         <a
-          href="/Authentication/register"
+          href="/Authentication/Register"
           className="text-green-600 font-medium hover:underline"
         >
           Create an account
