@@ -1,4 +1,5 @@
 'use client';
+import { PasswordStepper } from '@/app/_components/PasswordStepper/PasswordStepper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axiosInstance from '@/lib/axios';
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from "yup";
+import { ArrowLeft } from "lucide-react";
 
 
 
@@ -37,8 +39,9 @@ const page = () => {
         const { data } = await axiosInstance.post("/auth/forgotPasswords", values);
        
         toast.success(" successfully 🎉");
-        router.push("/auth/resetPassword");
+        router.push("/Authentication/verify-reset-code");
         console.log(data);
+        localStorage.setItem("email", values.email);
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
 
@@ -57,10 +60,11 @@ const page = () => {
     <div>
       <div className="text-center mb-6">
         {/* TITLE */}
-        <h1 className="text-4xl font-bold text-[#1E2939]">
-          <span className="block">
-            Fresh<span className="text-[#16A34A]">Cart</span>
+        <h1 className="text-3xl font-bold text-[#1E2939]">
+          <span className="text-[#16A34A]" >
+            Fresh
           </span>
+          <span >Cart</span>
 
           <span className="block">Forgot Password?</span>
         </h1>
@@ -70,19 +74,14 @@ const page = () => {
           No worries, we'll send you a reset code
         </p>
 
-       
-      </div>
-      <div className="flex items-center my-6">
-        <div className="flex-1 h-px bg-gray-300"></div>
+        <PasswordStepper currentStep={1} />
 
        
-
-        <div className="flex-1 h-px bg-gray-300"></div>
       </div>
       <form onSubmit={RegisterFormikOBJ.handleSubmit} className="space-y-4">
         {/* EMAIL */}
         <div className="flex flex-col gap-1">
-          <label className="text-base font-medium text-gray-700">Email</label>
+          <label className="text-base font-medium text-gray-700">Email Address</label>
 
           <Input
             name="email"
@@ -113,11 +112,13 @@ const page = () => {
 
        <a
           href="/Authentication/Login"
-          className="text-green-600 font-medium hover:underline"
+          className= "flex items-center justify-center mt-4 text-green-600 font-medium hover:underline"
         >
-          Back to Sign In
+
+          <ArrowLeft size={20} /> Back to Sign In
+         
         </a>
-      <p className="text-center text-sm text-gray-600 mt-4">
+      <p className="text-center text-sm text-gray-600 mt-8">
        Remember your password?{" "}
         <a
           href="/Authentication/Login"
