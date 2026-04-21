@@ -243,7 +243,7 @@ const page = () => {
       <p className="text-center text-sm text-gray-600 mt-4">
         Already have an account?{" "}
         <a
-          href="/Authentication/Login"
+          href="/Authentication/login"
           className="text-green-600 font-medium hover:underline"
         >
           Sign In
