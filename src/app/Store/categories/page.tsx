@@ -6,7 +6,7 @@ import { Layers } from "lucide-react";
 export default function CategoriesPage() {
   return (
     <>
-    <div className="bg-gradient-to-r from-[#16A34A] to-[#22C55E] text-white">
+    <div className="bg-red-500 text-white">
   
         <HeaderBanner
         title="All Categories"
