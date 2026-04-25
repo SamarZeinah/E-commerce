@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const Navbar = () => {
   const { user, logout, isLoading } = useAuth();
@@ -162,10 +163,10 @@ const Navbar = () => {
 
         {/* Links */}
         <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
-          <a href="#" className="hover:text-[#00C950]">Home</a>
-          <a href="#" className="hover:text-[#00C950]">Shop</a>
-          <a href="#">Categories</a>
-          <a href="#">Brands</a>
+          <Link  href="#" className="hover:text-[#00C950]">Home</Link>
+          <Link  href="#" className="hover:text-[#00C950]">Shop</Link>
+          <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
+          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
         </nav>
 
         {/* Right */}
