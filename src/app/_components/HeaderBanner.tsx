@@ -1,33 +1,3 @@
-// import React, { ReactNode } from "react";
-
-// type Props = {
-//   title: string;
-//   subtitle: string;
-//   icon: ReactNode;
-
-// };
-
-// export default function HeaderBanner({
-//   title,
-//   subtitle,
-//   icon,
-
-// }: Props) {
-//   return (
-//     <div className="max-w-7xl mx-auto  py-22 px-8 text-white">
-//       <div className="flex items-center gap-4">
-//         <div className="bg-white/20 p-4 rounded-xl">
-//           {icon}
-//         </div>
-
-//         <div>
-//           <h1 className="text-3xl font-bold mb-1">{title}</h1>
-//           <p className="text-sm opacity-80">{subtitle}</p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 "use client";
 
 import React, { ReactNode } from "react";
@@ -37,7 +7,7 @@ type Props = {
   title: string;
   subtitle: string;
   icon: ReactNode;
-  brandName?: string; // 👈 إضافة اختيارية
+  brandName?: string;
 };
 
 export default function HeaderBanner({
@@ -57,8 +27,8 @@ export default function HeaderBanner({
 
         <span>/</span>
 
-        <Link href="/Store/products" className="opacity-70 hover:opacity-100">
-          Products
+        <Link href="/Store/brands" className="opacity-70 hover:opacity-100">
+          Brands
         </Link>
 
         {brandName && (
