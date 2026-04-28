@@ -163,8 +163,8 @@ const Navbar = () => {
 
         {/* Links */}
         <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
-          <Link  href="#" className="hover:text-[#00C950]">Home</Link>
-          <Link  href="#" className="hover:text-[#00C950]">Shop</Link>
+          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
+          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
           <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
           <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
         </nav>
@@ -246,10 +246,12 @@ const Navbar = () => {
 
           {/* Links */}
           <div className="flex flex-col gap-3">
-            <a href="#">Home</a>
-            <a href="#">Shop</a>
-            <a href="#">Categories</a>
-            <a href="#">Brands</a>
+          
+          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
+          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
+          <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
+          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
+     
           </div>
 
           <div className="border-t my-3" />
