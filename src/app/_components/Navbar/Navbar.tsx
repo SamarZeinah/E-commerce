@@ -20,8 +20,15 @@ import {
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import axiosInstance from "@/lib/axios";
 
 const Navbar = () => {
+  const FEATURED_CATEGORY_IDS = [
+  "6439d2d167d9aa4ca970649f", // Electronics
+  "6439d58a0049ad0b52b9003f", // Women's Fashion  
+  "6439d5b90049ad0b52b90048", // Men's Fashion
+  "6439d30b67d9aa4ca97064b1", // Beauty & Health
+];
   const { user, logout, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
   const [hideTopBar, setHideTopBar] = useState(false);
@@ -40,8 +47,20 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/Authentication/login");
+    router.push("/Authentication/Login");
   };
+  const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
+
+useEffect(() => {
+  axiosInstance.get("/categories").then(res => {
+    const all = res.data.data;
+  
+    const filtered = all.filter((cat: {_id: string, name: string}) => 
+      FEATURED_CATEGORY_IDS.includes(cat._id)
+    );
+    setCategories(filtered);
+  });
+}, []);
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white border-b">
@@ -95,7 +114,7 @@ const Navbar = () => {
                 </div>
               ) : (
                 <button
-                  onClick={() => router.push("/Authentication/login")}
+                  onClick={() => router.push("/Authentication/Login")}
                   className="flex items-center gap-2 text-gray-800 hover:text-green-700 transition cursor-pointer group"
                 >
                   <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 group-hover:bg-green-100 group-hover:text-green-600 transition">
@@ -184,7 +203,7 @@ const Navbar = () => {
               className={`absolute top-full left-0 w-52 bg-white border rounded-xl shadow-lg z-50 overflow-hidden transition-all duration-200 ${catOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                 }`}
             >
-              <div className="pt-2">
+              {/* <div className="pt-2">
                 {[
                   { label: "All Categories", href: "/Store/categories" },
                   { label: "Electronics", href: "/Store/categories/electronics" },
@@ -200,7 +219,25 @@ const Navbar = () => {
                     {item.label}
                   </Link>
                 ))}
-              </div>
+              </div> */}
+
+              <div className="pt-2">
+  {/* All Categories أول */}
+  <Link href="/Store/categories" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950]">
+    All Categories
+  </Link>
+
+  {/* باقي الـ categories من الـ API */}
+  {categories.map((cat) => (
+    <Link
+      key={cat._id}
+      href={`/Store/products?category=${cat._id}`}
+      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950] transition-colors"
+    >
+      {cat.name}
+    </Link>
+  ))}
+</div>
             </div>
           </div>          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
         </nav>
@@ -217,9 +254,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button>
+          <Link href="/Store/wishlist">
             <Heart className="text-gray-700 hover:text-red-600 cursor-pointer" />
-          </button>
+          </Link>
 
           <button>
             <ShoppingCart className="text-gray-700 hover:text-blue-600 cursor-pointer" />
@@ -234,7 +271,7 @@ const Navbar = () => {
             </button>
           ) : (
             <button
-              onClick={() => router.push("/Authentication/login")}
+              onClick={() => router.push("/Authentication/Login")}
               className="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition  cursor-pointer"
             >
               Sign In
@@ -375,7 +412,7 @@ const Navbar = () => {
                 {/* Sign In */}
                 <button
                   onClick={() => {
-                    router.push("/Authentication/login");
+                    router.push("/Authentication/Login");
                     setOpen(false);
                   }}
                   className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-green-600"

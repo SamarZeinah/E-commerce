@@ -15,10 +15,12 @@ import * as Yup from "yup";
 type ResetValues = {
  
   email: string;
-  password: string;
+  newPassword: string;
 };
 
 const page = () => {
+  const code = localStorage.getItem("resetCode");
+const email = localStorage.getItem("email");
   const router = useRouter();
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -26,22 +28,27 @@ const page = () => {
           .required("Email is required"),
     
   
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
+      newPassword: Yup.string()
+        .min(5, "Password must be at least 5 characters")
+        .required("newPassword is required"),
     });
 
 
     const RegisterFormikOBJ = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      newPassword: "",
     },
 
     onSubmit: async (values:ResetValues) => {
       console.log(values);
       try {
-        const { data } = await axiosInstance.post("/auth/resetPassword", values);
+        // const { data } = await axiosInstance.post("/auth/resetPassword", values);
+      const { data }=  await axiosInstance.put("/auth/resetPassword", {
+  email,
+  newPassword: values.newPassword,
+  code,
+});
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         
@@ -122,10 +129,10 @@ const page = () => {
           </div>
 
           <Input
-            name="password"
+            name="newPassword"
             type={showPassword ? "text" : "password"}
             placeholder="Enter Your Password"
-            value={RegisterFormikOBJ.values.password}
+            value={RegisterFormikOBJ.values.newPassword}
             onChange={RegisterFormikOBJ.handleChange}
             onBlur={RegisterFormikOBJ.handleBlur}
             className="h-11 text-base pr-10"
@@ -139,10 +146,10 @@ const page = () => {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
 
-          {RegisterFormikOBJ.touched.password &&
-            RegisterFormikOBJ.errors.password && (
+          {RegisterFormikOBJ.touched.newPassword &&
+            RegisterFormikOBJ.errors.newPassword && (
               <p className="text-red-500 text-sm">
-                {RegisterFormikOBJ.errors.password}
+                {RegisterFormikOBJ.errors.newPassword}
               </p>
             )}
         </div>

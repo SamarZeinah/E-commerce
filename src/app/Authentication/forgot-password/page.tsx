@@ -20,24 +20,24 @@ type ForgetValues = {
 
 const page = () => {
 
-    const router = useRouter();
- const validationSchema = Yup.object({
+  const router = useRouter();
+  const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
 
   });
 
-   const RegisterFormikOBJ = useFormik({
-      initialValues: {
-        email: ""
-       
-      },
-      onSubmit: async (values: ForgetValues) => {
+  const RegisterFormikOBJ = useFormik({
+    initialValues: {
+      email: ""
+
+    },
+    onSubmit: async (values: ForgetValues) => {
       console.log(values);
       try {
         const { data } = await axiosInstance.post("/auth/forgotPasswords", values);
-       
+
         toast.success(" successfully 🎉");
         router.push("/Authentication/verify-reset-code");
         console.log(data);
@@ -52,9 +52,9 @@ const page = () => {
 
     validationSchema,
   });
-  
 
-   
+
+
 
   return (
     <div>
@@ -76,7 +76,7 @@ const page = () => {
 
         <PasswordStepper currentStep={1} />
 
-       
+
       </div>
       <form onSubmit={RegisterFormikOBJ.handleSubmit} className="space-y-4">
         {/* EMAIL */}
@@ -100,28 +100,27 @@ const page = () => {
             )}
         </div>
 
-       
+
 
         <Button
           type="submit"
           className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer"
         >
-         Send Reset Code
+          Send Reset Code
         </Button>
       </form>
 
-       <a
-          href="/Authentication/login"
-          className="text-green-600 font-medium hover:underline"
-        >
-
-          <ArrowLeft size={20} /> Back to Sign In
-         
-        </a>
+      <a
+        href="/Authentication/Login"
+        className="flex items-center justify-center gap-2 mt-4 text-green-600 font-medium hover:underline"
+      >
+        <ArrowLeft size={20} />
+        <span>Back to Sign In</span>
+      </a>
       <p className="text-center text-sm text-gray-600 mt-8">
-       Remember your password?{" "}
+        Remember your password?{" "}
         <a
-          href="/Authentication/login"
+          href="/Authentication/Login"
           className="text-green-600 font-medium hover:underline"
         >
           Sign In
