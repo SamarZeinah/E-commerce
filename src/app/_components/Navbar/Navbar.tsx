@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 import {
   ShoppingCart,
   Heart,
@@ -26,6 +27,7 @@ const Navbar = () => {
   const [hideTopBar, setHideTopBar] = useState(false);
 
   const router = useRouter();
+  const [catOpen, setCatOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,9 +47,8 @@ const Navbar = () => {
     <header className="w-full sticky top-0 z-50 bg-white border-b">
       {/* TOP BAR*/}
       <div
-        className={`hidden lg:block bg-gray-50 transition-all duration-300 overflow-hidden ${
-          hideTopBar ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
-        }`}
+        className={`hidden lg:block bg-gray-50 transition-all duration-300 overflow-hidden ${hideTopBar ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center py-2 text-sm">
           {/* Left */}
@@ -163,10 +164,51 @@ const Navbar = () => {
 
         {/* Links */}
         <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
-          <Link  href="#" className="hover:text-[#00C950]">Home</Link>
-          <Link  href="#" className="hover:text-[#00C950]">Shop</Link>
-          <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
-          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
+          <Link href="/" className="hover:text-[#00C950]">Home</Link>
+          <Link href="#" className="hover:text-[#00C950]">Shop</Link>
+          {/* <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link> */}
+          {/* Categories Dropdown */}
+
+          <div
+            className="relative"
+            onMouseEnter={() => setCatOpen(true)}
+            onMouseLeave={() => setCatOpen(false)}
+          >
+            <button className="flex items-center gap-1 hover:text-[#00C950] transition-colors">
+              Categories
+              <ChevronDown
+                size={16}
+                className="transition-transform duration-300"
+                style={{ transform: catOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              />
+            </button>
+
+            {/* مفيش gap بين الـ button والـ dropdown */}
+            <div
+              className={`absolute top-full left-0 w-52 bg-white border rounded-xl shadow-lg z-50 overflow-hidden transition-all duration-200 ${catOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                }`}
+            >
+              {/* pt-2 عشان يغطي أي فراغ صغير */}
+              <div className="pt-2">
+                {[
+                  { label: "All Categories", href: "/Store/categories" },
+                  { label: "Electronics", href: "/Store/categories/electronics" },
+                  { label: "Women's Fashion", href: "/Store/categories/women" },
+                  { label: "Men's Fashion", href: "/Store/categories/men" },
+                  { label: "Beauty & Health", href: "/Store/categories/beauty" },
+                ].map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950] transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          <Link href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
         </nav>
 
         {/* Right */}
@@ -182,7 +224,7 @@ const Navbar = () => {
           </div>
 
           <button>
-            <Heart className="text-gray-700 hover:text-red-600 cursor-pointer"/>
+            <Heart className="text-gray-700 hover:text-red-600 cursor-pointer" />
           </button>
 
           <button>
@@ -220,9 +262,8 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
-        } md:hidden`}
+        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          } md:hidden`}
       >
         <div className="p-4 flex justify-between items-center border-b">
           <h2 className="font-bold text-lg">Menu</h2>
