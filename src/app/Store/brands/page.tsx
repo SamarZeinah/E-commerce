@@ -6,6 +6,7 @@ import { ArrowRight, Tag } from "lucide-react";
 import axiosInstance from "@/lib/axios";
 import { Oval } from "react-loader-spinner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Brand = {
   _id: string;
@@ -36,6 +37,7 @@ const Loader = () => {
 export default function BrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const getBrands = async () => {
@@ -69,11 +71,12 @@ export default function BrandsPage() {
         {loading ? (
           <Loader />
         ) : (
-          // <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
             {brands.map((brand) => (
               <div
                 key={brand._id}
+                  onClick={() => router.push(`/Store/products?brand=${brand._id}`)}
+
                 className="group bg-white border border-gray-100 rounded-2xl p-4 text-center shadow-sm 
                 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
               >

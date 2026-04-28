@@ -164,12 +164,9 @@ const Navbar = () => {
 
         {/* Links */}
         <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
-          <Link href="/" className="hover:text-[#00C950]">Home</Link>
-          <Link href="#" className="hover:text-[#00C950]">Shop</Link>
-          {/* <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link> */}
-          {/* Categories Dropdown */}
-
-          <div
+          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
+          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
+     <div
             className="relative"
             onMouseEnter={() => setCatOpen(true)}
             onMouseLeave={() => setCatOpen(false)}
@@ -183,12 +180,10 @@ const Navbar = () => {
               />
             </button>
 
-            {/* مفيش gap بين الـ button والـ dropdown */}
             <div
               className={`absolute top-full left-0 w-52 bg-white border rounded-xl shadow-lg z-50 overflow-hidden transition-all duration-200 ${catOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                 }`}
             >
-              {/* pt-2 عشان يغطي أي فراغ صغير */}
               <div className="pt-2">
                 {[
                   { label: "All Categories", href: "/Store/categories" },
@@ -207,8 +202,7 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
-          </div>
-          <Link href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
+          </div>          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
         </nav>
 
         {/* Right */}
@@ -287,10 +281,12 @@ const Navbar = () => {
 
           {/* Links */}
           <div className="flex flex-col gap-3">
-            <a href="#">Home</a>
-            <a href="#">Shop</a>
-            <a href="#">Categories</a>
-            <a href="#">Brands</a>
+          
+          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
+          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
+          <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
+          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
+     
           </div>
 
           <div className="border-t my-3" />

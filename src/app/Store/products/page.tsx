@@ -102,12 +102,16 @@ export default function ProductsPage() {
       <div className="bg-gradient-to-r from-[#7c3aed] to-[#a78bfa]">
         <HeaderBanner
           title={brand?.name ?? "All Products"}
-          subtitle={`Shop ${brand?.name || "All"} Products`}
+          subtitle={
+            brand
+              ? `Shop ${brand.name} Products`
+              : "Explore our complete product collection"
+          }
           icon={
             brand?.image ? (
               <img src={brand.image} className="w-10 h-10" />
             ) : (
-              <Tag />
+              <Tag /> // ممكن تغيريها لأي icon تاني لو حابة
             )
           }
           brandName={brand?.name}
@@ -118,10 +122,12 @@ export default function ProductsPage() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center  flex-wrap gap-3">
             {/* Left side: title */}
-            <div className="flex items-center gap-2 font-medium">
-              <Filter size={16} />
-              <span>Active Filters:</span>
-            </div>
+            {brandId && (
+              <div className="flex items-center gap-2 font-medium">
+                <Filter size={16} />
+                <span>Active Filters:</span>
+              </div>
+            )}
 
             {/* Middle: filter chip */}
             <div className="flex items-center gap-2">
@@ -134,7 +140,7 @@ export default function ProductsPage() {
                   <span className="font-medium">{brand?.name || "Brand"}</span>
 
                   <button
-                    onClick={() => router.push("/products")}
+                    onClick={() => router.push("/Store/brands")}
                     className="ml-1 text-violet-500 
     transition-colors duration-200 font-bold"
                   >
@@ -147,7 +153,7 @@ export default function ProductsPage() {
             {/* Right side: clear all */}
             {brandId && (
               <button
-                onClick={() => router.push("/products")}
+                onClick={() => router.push("/Store/brands")}
                 className="text-red-500 hover:underline cursor-pointer"
               >
                 Clear all
