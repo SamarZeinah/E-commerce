@@ -17,11 +17,12 @@ type VerifyValues = {
 };
 
 const page = () => {
+
   const email = localStorage.getItem("email");
     const router = useRouter();
    const validationSchema = Yup.object({
       resetCode: Yup.string()
-      .matches( /^[0-9]{6}$/, "Reset code must be 6 digits")
+      .matches( /^[0-9]{5,6}$/, "Reset code must be 5-6 digits")
         .required("Reset code is required"),
   
     });
@@ -36,7 +37,8 @@ const page = () => {
       console.log(values);
       try {
         const { data } = await axiosInstance.post("/auth/verifyResetCode", values);
-       
+
+       localStorage.setItem("resetCode", values.resetCode);
         toast.success("Reset code verified successfully 🎉");
         router.push("/Authentication/reset-password");
         console.log(data);
