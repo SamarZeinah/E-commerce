@@ -3,7 +3,7 @@
 
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 type Props = {
   title: string;
   subtitle: string;
@@ -14,7 +14,6 @@ type Props = {
   basePath?: { label: string; href: string };
 };
 
-
 export default function HeaderBanner({
   title,
   subtitle,
@@ -23,14 +22,6 @@ export default function HeaderBanner({
   categoryName,
   basePath,
 }: Props) {
-  const pathname = usePathname();
-const lastSegment = pathname.split("/").filter(Boolean).pop();
-const formatName = (name?: string) => {
-  if (!name) return "";
-  return name.charAt(0).toUpperCase() + name.slice(1);
-};
-
-const pageName = formatName(lastSegment);
   return (
     <div className="max-w-7xl mx-auto py-16 px-8 text-white">
 
@@ -42,10 +33,15 @@ const pageName = formatName(lastSegment);
 
         <span>/</span>
 
-        <Link href="/Store/brands" className="opacity-70 hover:opacity-100">
-  {pageName}
-</Link>
+        {/* لو في basePath مخصص استخدمه، غيره الـ default */}
+        <Link
+          href={basePath?.href ?? "/Store/brands"}
+          className="opacity-70 hover:opacity-100"
+        >
+          {basePath?.label ?? "Brands"}
+        </Link>
 
+        {/* Brands page */}
         {brandName && (
           <>
             <span>/</span>

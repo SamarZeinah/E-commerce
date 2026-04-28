@@ -102,6 +102,7 @@ export default function ProductsPage() {
       <div className="bg-gradient-to-r from-[#7c3aed] to-[#a78bfa]">
         <HeaderBanner
           title={brand?.name ?? "All Products"}
+           basePath={{ label: "Brands", href: "/Store/brands" }}
           subtitle={
             brand
               ? `Shop ${brand.name} Products`
