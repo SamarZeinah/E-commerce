@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axios";
 import { Heart, RefreshCw, Eye, Plus, Star } from "lucide-react";
+import ProductsPage from "@/app/Store/products/page";
 
 type Product = {
   _id: string;
@@ -71,21 +72,19 @@ export default function FeaturedProducts() {
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto pt-20">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 ">
         <div className="w-[5px] h-8 bg-[#009966] rounded"></div>
         <h2 className="text-3xl font-bold">
           Featured <span className="text-green-600">Products</span>
         </h2>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {products.map((product) => (
           <div
             key={product._id}
             className="bg-white border rounded-xl p-3 relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl relative"
           >
-            {/* Icons */}
             <div className="absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300">
               <button
                 className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center
@@ -108,7 +107,7 @@ export default function FeaturedProducts() {
                 <Eye size={16} />
               </button>
             </div>
-            {/*  Image */}
+
             {product.priceAfterDiscount && (
               <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow">
                 -
@@ -125,15 +124,12 @@ export default function FeaturedProducts() {
               className="w-full h-52 object-contain mb-3 "
             />
 
-            {/*  Category */}
             <p className="text-gray-500 text-sm">{product.category.name}</p>
 
-            {/*  Title */}
             <h3 className="font-medium line-clamp-2 cursor-pointer">
               {product.title}
             </h3>
 
-            {/*  Rating */}
             <div className="flex items-center gap-2 mt-1 text-sm">
               <div className="flex">{renderStars(product.ratingsAverage)}</div>
               <span className="text-gray-500 text-sm">
@@ -142,7 +138,6 @@ export default function FeaturedProducts() {
               <span className="text-gray-500">({product.ratingsQuantity})</span>
             </div>
 
-            {/*  Price + Add */}
             <div className="flex justify-between items-center mt-3">
               <span className="font-bold">{product.price} EGP</span>
 
@@ -152,7 +147,8 @@ export default function FeaturedProducts() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+      <ProductsPage/>
     </div>
   );
 }

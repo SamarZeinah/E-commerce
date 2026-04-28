@@ -6,6 +6,7 @@ import HeaderBanner from "@/app/_components/HeaderBanner";
 import { Tag, Heart, RefreshCw, Eye, Plus, Star, Filter } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Oval } from "react-loader-spinner";
+import { usePathname } from "next/navigation";
 type Product = {
   _id: string;
   title: string;
@@ -33,7 +34,9 @@ export default function ProductsPage() {
   const [brand, setBrand] = useState<Brand | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+const pathname = usePathname();
 
+const isHome = pathname === "/";
   useEffect(() => {
     const getData = async () => {
       try {
@@ -99,6 +102,7 @@ export default function ProductsPage() {
 
   return (
     <>
+    {!isHome && (
       <div className="bg-gradient-to-r from-[#7c3aed] to-[#a78bfa]">
         <HeaderBanner
           title={brand?.name ?? "All Products"}
@@ -112,14 +116,15 @@ export default function ProductsPage() {
             brand?.image ? (
               <img src={brand.image} className="w-10 h-10" />
             ) : (
-              <Tag /> // ممكن تغيريها لأي icon تاني لو حابة
+              <Tag /> 
             )
           }
           brandName={brand?.name}
         />
       </div>
-
+    )}
       <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto pt-10">
+        {!isHome && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center  flex-wrap gap-3">
             {/* Left side: title */}
@@ -166,11 +171,13 @@ export default function ProductsPage() {
             Showing {products.length} products
           </div>
         </div>
+         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {products.map((product) => (
             <div
               key={product._id}
-              className="bg-white border rounded-xl p-3 relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                onClick={() => router.push(`/Store/products/${product._id}`)}
+              className="bg-white border rounded-xl p-3 relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer"
             >
               {/* Icons */}
               <div className="absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300">
@@ -182,7 +189,8 @@ export default function ProductsPage() {
                   <RefreshCw size={16} />
                 </button>
 
-                <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-green-600 hover:scale-110 transition cursor-pointer">
+                <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-green-600 hover:scale-110 transition cursor-pointer"
+                                onClick={() => router.push(`/Store/products/${product._id}`)}>
                   <Eye size={16} />
                 </button>
               </div>
