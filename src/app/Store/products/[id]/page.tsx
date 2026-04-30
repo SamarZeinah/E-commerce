@@ -261,12 +261,11 @@ import axiosInstance from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import { useParams, useRouter } from "next/navigation";
+import ProductTabs from "../../../_components/ProductTabs/ProductTabs";
 import {
-  Car,
   Eye,
   Heart,
   Plus,
@@ -292,7 +291,7 @@ type Product = {
     image: string;
   };
 };
-interface ProductDetails {
+export interface ProductDetails {
   sold: number;
   images: string[];
   ratingsQuantity: number;
@@ -312,6 +311,12 @@ interface ProductDetails {
     image: string;
   };
 
+  subcategory: {
+    _id: string;
+    name: string;
+    slug: string;
+    image: string;
+  };
   brand: {
     _id: string;
     name: string;
@@ -342,8 +347,6 @@ interface ProductDetails {
 interface ProductDetailsResponse {
   data: ProductDetails;
 }
-
-/* ================= COMPONENT ================= */
 
 export default function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -584,6 +587,8 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </div>
+
+      <ProductTabs product={product} />
 
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="flex items-center gap-3 mb-6">
