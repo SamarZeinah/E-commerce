@@ -24,11 +24,11 @@ import axiosInstance from "@/lib/axios";
 
 const Navbar = () => {
   const FEATURED_CATEGORY_IDS = [
-  "6439d2d167d9aa4ca970649f", // Electronics
-  "6439d58a0049ad0b52b9003f", // Women's Fashion  
-  "6439d5b90049ad0b52b90048", // Men's Fashion
-  "6439d30b67d9aa4ca97064b1", // Beauty & Health
-];
+    "6439d2d167d9aa4ca970649f", // Electronics
+    "6439d58a0049ad0b52b9003f", // Women's Fashion
+    "6439d5b90049ad0b52b90048", // Men's Fashion
+    "6439d30b67d9aa4ca97064b1", // Beauty & Health
+  ];
   const { user, logout, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
   const [hideTopBar, setHideTopBar] = useState(false);
@@ -49,25 +49,28 @@ const Navbar = () => {
     logout();
     router.push("/Authentication/Login");
   };
-  const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
+  const [categories, setCategories] = useState<{ _id: string; name: string }[]>(
+    [],
+  );
 
-useEffect(() => {
-  axiosInstance.get("/categories").then(res => {
-    const all = res.data.data;
-  
-    const filtered = all.filter((cat: {_id: string, name: string}) => 
-      FEATURED_CATEGORY_IDS.includes(cat._id)
-    );
-    setCategories(filtered);
-  });
-}, []);
+  useEffect(() => {
+    axiosInstance.get("/categories").then((res) => {
+      const all = res.data.data;
+
+      const filtered = all.filter((cat: { _id: string; name: string }) =>
+        FEATURED_CATEGORY_IDS.includes(cat._id),
+      );
+      setCategories(filtered);
+    });
+  }, []);
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white border-b">
       {/* TOP BAR*/}
       <div
-        className={`hidden lg:block bg-gray-50 transition-all duration-300 overflow-hidden ${hideTopBar ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
-          }`}
+        className={`hidden lg:block bg-gray-50 transition-all duration-300 overflow-hidden ${
+          hideTopBar ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center py-2 text-sm">
           {/* Left */}
@@ -183,9 +186,13 @@ useEffect(() => {
 
         {/* Links */}
         <nav className="hidden md:flex gap-6 text-gray-700 font-medium ">
-          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
-          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
-     <div
+          <Link href="/" className="hover:text-[#00C950]">
+            Home
+          </Link>
+          <Link href="/Store/products" className="hover:text-[#00C950]">
+            Shop
+          </Link>
+          <div
             className="relative"
             onMouseEnter={() => setCatOpen(true)}
             onMouseLeave={() => setCatOpen(false)}
@@ -195,13 +202,16 @@ useEffect(() => {
               <ChevronDown
                 size={16}
                 className="transition-transform duration-300"
-                style={{ transform: catOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                style={{
+                  transform: catOpen ? "rotate(180deg)" : "rotate(0deg)",
+                }}
               />
             </button>
 
             <div
-              className={`absolute top-full left-0 w-52 bg-white border rounded-xl shadow-lg z-50 overflow-hidden transition-all duration-200 ${catOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-                }`}
+              className={`absolute top-full left-0 w-52 bg-white border rounded-xl shadow-lg z-50 overflow-hidden transition-all duration-200 ${
+                catOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
             >
               {/* <div className="pt-2">
                 {[
@@ -222,24 +232,29 @@ useEffect(() => {
               </div> */}
 
               <div className="pt-2">
-  {/* All Categories أول */}
-  <Link href="/Store/categories" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950]">
-    All Categories
-  </Link>
+                {/* All Categories أول */}
+                <Link
+                  href="/Store/categories"
+                  className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950]"
+                >
+                  All Categories
+                </Link>
 
-  {/* باقي الـ categories من الـ API */}
-  {categories.map((cat) => (
-    <Link
-      key={cat._id}
-      href={`/Store/products?category=${cat._id}`}
-      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950] transition-colors"
-    >
-      {cat.name}
-    </Link>
-  ))}
-</div>
+                {categories.map((cat) => (
+                  <Link
+                    key={cat._id}
+                    href={`/Store/products?category=${cat._id}`}
+                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950] transition-colors"
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
+          </div>{" "}
+          <Link href="/Store/brands" className="hover:text-[#00C950]">
+            Brands
+          </Link>
         </nav>
 
         {/* Right */}
@@ -293,8 +308,9 @@ useEffect(() => {
 
       {/* Mobile menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
-          } md:hidden`}
+        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white z-50 shadow-lg transform transition-transform duration-300 ${
+          open ? "translate-x-0" : "translate-x-full"
+        } md:hidden`}
       >
         <div className="p-4 flex justify-between items-center border-b">
           <h2 className="font-bold text-lg">Menu</h2>
@@ -318,12 +334,18 @@ useEffect(() => {
 
           {/* Links */}
           <div className="flex flex-col gap-3">
-          
-          <Link  href="/" className="hover:text-[#00C950]">Home</Link>
-          <Link  href="/Store/products" className="hover:text-[#00C950]">Shop</Link>
-          <Link  href="/Store/categories" className="hover:text-[#00C950]">Categories</Link>
-          <Link  href="/Store/brands" className="hover:text-[#00C950]">Brands</Link>
-     
+            <Link href="/" className="hover:text-[#00C950]">
+              Home
+            </Link>
+            <Link href="/Store/products" className="hover:text-[#00C950]">
+              Shop
+            </Link>
+            <Link href="/Store/categories" className="hover:text-[#00C950]">
+              Categories
+            </Link>
+            <Link href="/Store/brands" className="hover:text-[#00C950]">
+              Brands
+            </Link>
           </div>
 
           <div className="border-t my-3" />

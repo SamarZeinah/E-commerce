@@ -8,7 +8,7 @@ import { Tag, Heart, RefreshCw, Eye, Plus, Star, Filter } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Oval } from "react-loader-spinner";
 import { useWishlist } from "@/context/WishlistContext";
-
+import { usePathname } from "next/navigation";
 type Product = {
   _id: string;
   title: string;
@@ -42,11 +42,10 @@ export default function ProductsPage() {
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  
+const pathname = usePathname();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
-const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-
-
+const isHome = pathname === "/";
   useEffect(() => {
     const getData = async () => {
       try {
@@ -119,15 +118,15 @@ const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   return (
     <>
-      
-      <div  className={`${
+ 
+ {!isHome && (
+ <div  className={`${
   categoryId
     ? "bg-gradient-to-br from-[#16A34A] via-[#22C55E] to-[#4ADE80]"
     : brandId
     ? "bg-gradient-to-r from-[#7c3aed] to-[#a78bfa]"
-    : "bg-gradient-to-br from-[#16A34A] via-[#22C55E] to-[#4ADE80]" // ← Shop العادية أخضر
-}`}>
-        <HeaderBanner
+    : "bg-gradient-to-br from-[#16A34A] via-[#22C55E] to-[#4ADE80]" 
+}`}>        <HeaderBanner
           title={
             category?.name ?? brand?.name ?? "All Products"
           }
@@ -159,8 +158,9 @@ const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
           categoryName={category?.name}
         />
       </div>
-
+    )}
       <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto pt-10">
+        {!isHome && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center flex-wrap gap-3">
 
@@ -213,12 +213,13 @@ const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
             Showing {products.length} products
           </div>
         </div>
-
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {products.map((product) => (
             <div
               key={product._id}
-              className="bg-white border rounded-xl p-3 relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                // onClick={() => router.push(`/Store/products/${product._id}`)}
+              className="bg-white border rounded-xl p-3 relative group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer"
             >
               <div className="absolute top-3 right-3 flex flex-col gap-2">
                 {/* <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-red-600 hover:scale-110 transition cursor-pointer">
@@ -244,7 +245,9 @@ const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
                 <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-green-600 hover:scale-110 transition cursor-pointer">
                   <RefreshCw size={16} />
                 </button>
-                <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-green-600 hover:scale-110 transition cursor-pointer">
+
+                <button className="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center hover:text-green-600 hover:scale-110 transition cursor-pointer"
+                  onClick={() => router.push(`/Store/products/${product._id}`)}>
                   <Eye size={16} />
                 </button>
               </div>
