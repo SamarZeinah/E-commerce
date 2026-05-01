@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import { useParams, useRouter } from "next/navigation";
 import ProductTabs from "../../../_components/ProductTabs/ProductTabs";
 import {
+  Check,
   Eye,
   Heart,
   Plus,
@@ -20,6 +21,11 @@ import {
   Truck,
 } from "lucide-react";
 import { useWishlist } from "@/context/WishlistContext";
+import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { Oval } from "react-loader-spinner";
+
 type Product = {
   _id: string;
   title: string;
@@ -91,7 +97,24 @@ export interface ProductDetails {
 interface ProductDetailsResponse {
   data: ProductDetails;
 }
+// Loader Component
+const Loader = () => {
+  return (
+    <div className="flex flex-col items-center justify-center py-20">
+      <Oval
+        height={60}
+        width={60}
+        color="#16A34A"
+        secondaryColor="#4ADE80"
+        strokeWidth={3}
+        ariaLabel="oval-loading"
+        visible={true}
+      />
 
+      <p className="mt-4 text-sm text-gray-500">Loading product details...</p>
+    </div>
+  );
+};
 export default function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const [quantity, setQuantity] = useState(1);
@@ -100,7 +123,8 @@ export default function ProductDetailsPage() {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const router = useRouter();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-
+  const [loadingCartId, setLoadingCartId] = useState<string | null>(null);
+  const { refreshCart } = useCart();
   const renderStars = (rating: number) => {
     return [...Array(5)].map((_, i) => {
       const fillPercent = Math.max(0, Math.min(1, rating - i));
@@ -156,11 +180,33 @@ export default function ProductDetailsPage() {
   }, [product]);
   /* loading */
   if (!product || !selectedImage) {
-    return <div className="text-center py-20">Loading product...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   const images = product.images?.length ? product.images : [product.imageCover];
+  const addToCart = async (productId: string) => {
+    try {
+      await axios.post(
+        "https://ecommerce.routemisr.com/api/v2/cart",
+        { productId },
+        {
+          headers: {
+            token: localStorage.getItem("token") || "",
+          },
+        },
+      );
 
+      toast.success("Added to cart ✔");
+
+      refreshCart();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 py-10">
@@ -424,8 +470,24 @@ export default function ProductDetailsPage() {
                 <div className="flex justify-between items-center mt-3">
                   <span className="font-bold">{product.price} EGP</span>
 
-                  <button className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition">
+                  {/* <button className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition">
                     <Plus />
+                  </button> */}
+                  <button
+                    onClick={async () => {
+                      setLoadingCartId(product._id);
+                      await addToCart(product._id);
+                      setLoadingCartId(null);
+                    }}
+                    className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center"
+                  >
+                    {loadingCartId === product._id ? (
+                      <span className="animate-spin">
+                        <Check />
+                      </span>
+                    ) : (
+                      <Plus />
+                    )}
                   </button>
                 </div>
               </div>

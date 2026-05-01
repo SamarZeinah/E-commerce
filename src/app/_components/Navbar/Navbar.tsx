@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 import {
   ShoppingCart,
   Heart,
@@ -35,7 +36,7 @@ const Navbar = () => {
 
   const router = useRouter();
   const [catOpen, setCatOpen] = useState(false);
-
+  const { cartCount } = useCart();
   useEffect(() => {
     const handleScroll = () => {
       setHideTopBar(window.scrollY > 10);
@@ -127,15 +128,6 @@ const Navbar = () => {
                   <span className="text-sm">Sign In</span>
                 </button>
               )}
-              {/* <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 text-red-500 hover:text-red-600"
-              >
-                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 text-red-500">
-                  <LogOut size={16} />
-                </div>
-                <span>Sign Out</span>
-              </button> */}
               {user ? (
                 <button
                   onClick={handleLogout}
@@ -273,10 +265,21 @@ const Navbar = () => {
             <Heart className="text-gray-700 hover:text-red-600 cursor-pointer" />
           </Link>
 
-          <button>
+          {/* <button>
             <ShoppingCart className="text-gray-700 hover:text-blue-600 cursor-pointer" />
-          </button>
+          </button> */}
+          <button
+            className="relative"
+            onClick={() => router.push("/Store/cart")}
+          >
+            <ShoppingCart className="text-gray-700 hover:text-blue-600 cursor-pointer" />
 
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </button>
           {user ? (
             <button
               onClick={() => router.push("/profile")}
@@ -366,38 +369,24 @@ const Navbar = () => {
             </a>
 
             <a
-              href="/cart"
+              href="/Store/cart"
               className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
             >
-              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
+              {/* Icon container */}
+              <div className="relative w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
                 <ShoppingCart size={18} />
+
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                    {cartCount}
+                  </span>
+                )}
               </div>
 
               <span className="text-sm font-medium text-gray-800">Cart</span>
             </a>
             <div className="border-t my-3" />
 
-            {/* <a
-              href="/profile"
-              className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
-            >
-              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600">
-                <User size={18} />
-              </div>
-
-              <span className="text-sm font-medium text-gray-800">Profile</span>
-            </a>
-
-            <button
-              className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition text-red-500 cursor-pointer"
-              onClick={handleLogout}
-            >
-              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-red-100 text-red-500">
-                <LogOut size={18} />
-              </div>
-
-              <span className="text-sm font-medium">Sign Out</span>
-            </button> */}
             {user ? (
               <>
                 {/* Profile */}
