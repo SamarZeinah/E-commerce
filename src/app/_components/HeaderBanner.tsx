@@ -9,8 +9,9 @@ type Props = {
   subtitle: string;
   icon: ReactNode;
   brandName?: string;
-  // أضفي دول
   categoryName?: string;
+  cartName?: string;
+
   basePath?: { label: string; href: string };
 };
 
@@ -20,6 +21,7 @@ export default function HeaderBanner({
   icon,
   brandName,
   categoryName,
+  cartName,
   basePath,
 }: Props) {
   return (
@@ -33,7 +35,6 @@ export default function HeaderBanner({
 
         <span>/</span>
 
-        {/* لو في basePath مخصص استخدمه، غيره الـ default */}
         <Link
           href={basePath?.href ?? "/Store/brands"}
           className="opacity-70 hover:opacity-100"
@@ -54,6 +55,13 @@ export default function HeaderBanner({
           <>
             <span>/</span>
             <span className="font-semibold">{categoryName}</span>
+          </>
+        )}
+         {/* cart page */}
+        {cartName && (
+          <>
+            <span>/</span>
+            <span className="font-semibold">{cartName}</span>
           </>
         )}
       </div>

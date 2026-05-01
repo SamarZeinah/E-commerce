@@ -7,6 +7,7 @@ import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import { WishlistProvider } from "@/context/WishlistContext";
+import { CartProvider } from "@/context/CartContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,13 +40,14 @@ export default function RootLayout({
       className={`${poppins.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-         <AuthProvider>
-           <WishlistProvider>
-        <LayoutContent>
-         {children}
-        </LayoutContent>
-        </WishlistProvider>
-        </AuthProvider>
+        <CartProvider>
+          <AuthProvider>
+            <WishlistProvider>
+              <LayoutContent>{children}</LayoutContent>
+            </WishlistProvider>
+          </AuthProvider>
+        </CartProvider>
+
         <Toaster position="top-center" />
       </body>
     </html>
