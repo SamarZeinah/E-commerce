@@ -34,7 +34,7 @@ const slides = [
 
 export default function HeroSlider() {
   return (
-    <div className="w-full relative">
+    <div className="w-full  relative">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{ delay: 3000 }}
@@ -44,7 +44,7 @@ export default function HeroSlider() {
           prevEl: ".custom-prev",
         }}
         loop={true}
-        className="w-full h-[400px] md:h-[500px]"
+        className="w-full h-[70vh]"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>

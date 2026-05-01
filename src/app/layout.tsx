@@ -6,6 +6,7 @@ import LayoutContent from "./LayoutContent";
 import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -39,9 +40,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
          <AuthProvider>
+           <WishlistProvider>
         <LayoutContent>
          {children}
         </LayoutContent>
+        </WishlistProvider>
         </AuthProvider>
         <Toaster position="top-center" />
       </body>
