@@ -186,7 +186,8 @@ export default function CartPage() {
               title="Shopping Cart"
               subtitle="Review your items"
               icon={<ShoppingCart />}
-              cartName="Cart"
+            
+               basePath={{ label: "Cart", href: "/Store/cart" }}
             />
           </div>
 
@@ -346,7 +347,7 @@ export default function CartPage() {
                       </span>
                     </div>
 
-                    <button className="w-full mt-6 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 transition font-medium cursor-pointer">
+                    <button  onClick={() => router.push("/Store/checkout")} className="w-full mt-6 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700 transition font-medium cursor-pointer">
                       Secure Checkout
                     </button>
 
