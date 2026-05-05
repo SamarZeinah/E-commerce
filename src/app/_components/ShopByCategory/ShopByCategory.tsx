@@ -201,7 +201,7 @@ const CategoriesSection = () => {
       }`}>
         {categories.map((cat) =>
           isCategoriesPage ? (
-            // ── Card كبيرة لصفحة /Store/categories ──
+            
             <div
               key={cat._id}
               className="group bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer overflow-hidden relative"
