@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MapPin, Settings } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import {
   ShoppingCart,
@@ -37,6 +37,15 @@ const Navbar = () => {
   const router = useRouter();
   const [catOpen, setCatOpen] = useState(false);
   const { cartCount } = useCart();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  useEffect(() => {
+    const handleClickOutside = () => setUserMenuOpen(false);
+    if (userMenuOpen) {
+      window.addEventListener("click", handleClickOutside);
+    }
+
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, [userMenuOpen]);
   useEffect(() => {
     const handleScroll = () => {
       setHideTopBar(window.scrollY > 10);
@@ -205,8 +214,6 @@ const Navbar = () => {
                 catOpen ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
             >
-           
-
               <div className="pt-2">
                 {/* All Categories  */}
                 <Link
@@ -234,8 +241,11 @@ const Navbar = () => {
         </nav>
 
         {/* Right */}
-        <div  className=" flex items-center gap-3 md:gap-4">
-          <div  onClick={() => router.push("/Store/contact")} className=" cursor-pointer hidden lg:flex items-center gap-2 border-r pr-4">
+        <div className=" flex items-center gap-3 md:gap-4">
+          <div
+            onClick={() => router.push("/Store/contact")}
+            className=" cursor-pointer hidden lg:flex items-center gap-2 border-r pr-4"
+          >
             <Headphones className="text-green-600" size={20} />
             <div className="flex flex-col leading-tight">
               <span className="text-xs text-gray-500">Support</span>
@@ -249,9 +259,7 @@ const Navbar = () => {
             <Heart className="text-gray-700 hover:text-red-600 cursor-pointer" />
           </Link>
 
-          {/* <button>
-            <ShoppingCart className="text-gray-700 hover:text-blue-600 cursor-pointer" />
-          </button> */}
+        
           <button
             className="relative"
             onClick={() => router.push("/Store/cart")}
@@ -265,16 +273,85 @@ const Navbar = () => {
             )}
           </button>
           {user ? (
-            <button
-              onClick={() => router.push("/profile")}
-              className="flex items-center justify-center w-9 h-9 rounded-full  transition"
-            >
-              <User className="text-gray-700 hover:text-green-600 cursor-pointer" />
-            </button>
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUserMenuOpen((prev) => !prev);
+                }}
+                className="flex items-center justify-center w-9 h-9 rounded-full"
+              >
+                <User className="text-gray-700 hover:text-green-600 cursor-pointer" />
+              </button>
+
+              {/* DROPDOWN */}
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-3 w-64 bg-white border rounded-2xl shadow-lg z-50 overflow-hidden animate-fadeIn">
+                  <div className="p-4 border-b flex items-center gap-3">
+                    {/* GREEN ICON CIRCLE */}
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                      <User className="text-green-600" size={18} />
+                    </div>
+
+                    {/* NAME */}
+                    <div>
+                      <p className="font-semibold text-gray-800">{user.name}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col text-sm text-gray-700">
+                    <button
+                      onClick={() => router.push("/Store/Profile")}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 hover:text-green-600 cursor-pointer"
+                    >
+                      <User size={16} /> My Profile
+                    </button>
+
+                    <button
+                      onClick={() => router.push("/Store/orders")}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 hover:text-green-600 cursor-pointer"
+                    >
+                      <Truck size={16} /> My Orders
+                    </button>
+
+                    <button
+                      onClick={() => router.push("/Store/wishlist")}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 hover:text-green-600 cursor-pointer"
+                    >
+                      <Heart size={16} /> My Wishlist
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        router.push("/Store/Profile?tab=addresses")
+                      }
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 hover:text-green-600 cursor-pointer"
+                    >
+                      <MapPin size={16} /> Addresses
+                    </button>
+
+                    <button
+                      onClick={() => router.push("/Store/Profile?tab=settings")}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 hover:text-green-600 cursor-pointer"
+                    >
+                      <Settings size={16} /> Settings
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 border-t cursor-pointer"
+                  >
+                    <LogOut size={16} /> Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
+            // 👇 هنا لازم تحطي UI لما المستخدم مش موجود
             <button
               onClick={() => router.push("/Authentication/Login")}
-              className="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition  cursor-pointer"
+              className="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition"
             >
               Sign In
             </button>
@@ -345,7 +422,6 @@ const Navbar = () => {
             >
               <div className="w-9 h-9 flex items-center justify-center rounded-full bg-pink-100 text-pink-600">
                 <Heart size={18} />
-                
               </div>
 
               <span className="text-sm font-medium text-gray-800">
@@ -376,7 +452,7 @@ const Navbar = () => {
               <>
                 {/* Profile */}
                 <a
-                  href="/profile"
+                  href="/Store/Profile"
                   className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
                 >
                   <div className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600">
@@ -439,7 +515,10 @@ const Navbar = () => {
           </div>
 
           {/* Support */}
-          <div   onClick={() => router.push("/Store/contact")} className="cursor-pointer flex items-center gap-4 p-3 rounded-lg bg-gray-50 ">
+          <div
+            onClick={() => router.push("/Store/contact")}
+            className="cursor-pointer flex items-center gap-4 p-3 rounded-lg bg-gray-50 "
+          >
             <Headphones className="text-green-600" />
             <div>
               <p className="text-sm font-medium">Support</p>
