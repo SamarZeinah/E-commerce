@@ -7,12 +7,14 @@ type CartContextType = {
   cartCount: number;
   refreshCart: () => void;
   increaseCart: () => void;
+    resetCart: () => void;
 };
 
 const CartContext = createContext<CartContextType>({
   cartCount: 0,
   refreshCart: () => {},
   increaseCart: () => {},
+    resetCart: () => {}
 });
 
 export const CartProvider = ({ children }: any) => {
@@ -47,14 +49,15 @@ export const CartProvider = ({ children }: any) => {
     getCart();
   };
 
-  // 🔥 الحل الأسرع (تحديث فوري بدون API)
   const increaseCart = () => {
     setCartCount((prev) => prev + 1);
   };
-
+const resetCart = () => {
+  setCartCount(0);
+};
   return (
     <CartContext.Provider
-      value={{ cartCount, refreshCart, increaseCart }}
+      value={{ cartCount, refreshCart, increaseCart ,resetCart}}
     >
       {children}
     </CartContext.Provider>
