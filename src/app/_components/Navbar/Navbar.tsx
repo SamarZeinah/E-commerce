@@ -205,26 +205,10 @@ const Navbar = () => {
                 catOpen ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
             >
-              {/* <div className="pt-2">
-                {[
-                  { label: "All Categories", href: "/Store/categories" },
-                  { label: "Electronics", href: "/Store/categories/electronics" },
-                  { label: "Women's Fashion", href: "/Store/categories/women" },
-                  { label: "Men's Fashion", href: "/Store/categories/men" },
-                  { label: "Beauty & Health", href: "/Store/categories/beauty" },
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950] transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div> */}
+           
 
               <div className="pt-2">
-                {/* All Categories أول */}
+                {/* All Categories  */}
                 <Link
                   href="/Store/categories"
                   className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#00C950]"
@@ -250,8 +234,8 @@ const Navbar = () => {
         </nav>
 
         {/* Right */}
-        <div className="flex items-center gap-3 md:gap-4">
-          <div className="hidden lg:flex items-center gap-2 border-r pr-4">
+        <div  className=" flex items-center gap-3 md:gap-4">
+          <div  onClick={() => router.push("/Store/contact")} className=" cursor-pointer hidden lg:flex items-center gap-2 border-r pr-4">
             <Headphones className="text-green-600" size={20} />
             <div className="flex flex-col leading-tight">
               <span className="text-xs text-gray-500">Support</span>
@@ -356,11 +340,12 @@ const Navbar = () => {
           {/* Icons inside menu */}
           <div className="flex flex-col ">
             <a
-              href="/wishlist"
+              href="Store/wishlist"
               className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-gray-100 transition"
             >
               <div className="w-9 h-9 flex items-center justify-center rounded-full bg-pink-100 text-pink-600">
                 <Heart size={18} />
+                
               </div>
 
               <span className="text-sm font-medium text-gray-800">
@@ -454,7 +439,7 @@ const Navbar = () => {
           </div>
 
           {/* Support */}
-          <div className="flex items-center gap-4 p-3 rounded-lg bg-gray-50 ">
+          <div   onClick={() => router.push("/Store/contact")} className="cursor-pointer flex items-center gap-4 p-3 rounded-lg bg-gray-50 ">
             <Headphones className="text-green-600" />
             <div>
               <p className="text-sm font-medium">Support</p>

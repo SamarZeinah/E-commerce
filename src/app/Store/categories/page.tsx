@@ -1,5 +1,4 @@
 
-
 import HeaderBanner from "@/app/_components/HeaderBanner";
 import CategoriesSection from "@/app/_components/ShopByCategory/ShopByCategory";
 import { Layers } from "lucide-react";
