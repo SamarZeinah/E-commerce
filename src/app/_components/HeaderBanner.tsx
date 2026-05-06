@@ -64,6 +64,7 @@ export default function HeaderBanner({
             <span className="font-semibold">{cartName}</span>
           </>
         )}
+        
       </div>
 
       {/* HEADER */}
