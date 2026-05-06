@@ -385,6 +385,19 @@ function useSafeSearchParams() {
 
   useEffect(() => {
     setParams(new URLSearchParams(window.location.search));
+
+   
+    const interval = setInterval(() => {
+      const newParams = new URLSearchParams(window.location.search);
+      setParams((prev) => {
+        if (prev?.toString() !== newParams.toString()) {
+          return newParams;
+        }
+        return prev;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
   }, []);
 
   return params;
