@@ -359,10 +359,10 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            // 👇 هنا لازم تحطي UI لما المستخدم مش موجود
+           
             <button
               onClick={() => router.push("/Authentication/Login")}
-              className="bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition"
+              className= "cursor-pointer bg-green-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-green-700 transition"
             >
               Sign In
             </button>
@@ -415,9 +415,46 @@ const Navbar = () => {
             <Link href="/Store/products" className="hover:text-[#00C950]">
               Shop
             </Link>
-            <Link href="/Store/categories" className="hover:text-[#00C950]">
+            {/* <Link href="/Store/categories" className="hover:text-[#00C950]">
               Categories
-            </Link>
+            </Link> */}
+
+            <div className="flex flex-col">
+  <button
+    onClick={() => setCatOpen((prev) => !prev)}
+    className="flex items-center justify-between hover:text-[#00C950] py-1"
+  >
+    <span>Categories</span>
+    <ChevronDown
+      size={16}
+      className="transition-transform duration-300"
+      style={{ transform: catOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+    />
+  </button>
+
+  {catOpen && (
+    <div className="flex flex-col pl-4 mt-1 gap-1 border-l border-gray-200">
+      <Link
+        href="/Store/categories"
+        onClick={() => setOpen(false)}
+        className="text-sm text-gray-700 py-1.5 hover:text-[#00C950]"
+      >
+        All Categories
+      </Link>
+
+      {categories.map((cat) => (
+        <Link
+          key={cat._id}
+          href={`/Store/products?category=${cat._id}`}
+          onClick={() => setOpen(false)}
+          className="text-sm text-gray-700 py-1.5 hover:text-[#00C950]"
+        >
+          {cat.name}
+        </Link>
+      ))}
+    </div>
+  )}
+</div>
             <Link href="/Store/brands" className="hover:text-[#00C950]">
               Brands
             </Link>
