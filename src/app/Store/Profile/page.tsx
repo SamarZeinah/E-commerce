@@ -303,7 +303,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
-
+import { Suspense } from "react";
 export type Address = {
   _id: string;
   name: string;
@@ -352,7 +352,7 @@ const Loader = ({ text = "Loading..." }: { text?: string }) => {
   );
 };
 
-export default function Page() {
+ function PageContent() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
@@ -367,10 +367,8 @@ const searchParams = useSearchParams();
   const [selectedData, setSelectedData] =
     useState<AddressFormValues | null>(null);
 
-  // 🔥 مهم: يبدأ true عشان مايحصلش flicker
   const [settingsLoading, setSettingsLoading] = useState(true);
 
-  /* ================= FETCH ================= */
 
   const fetchAddresses = async () => {
     try {
@@ -392,7 +390,6 @@ const searchParams = useSearchParams();
     }
   }, [activeTab]);
 
-  /* ================= LOAD SAVED TAB ================= */
 
 useEffect(() => {
   const tab = searchParams.get("tab");
@@ -402,7 +399,6 @@ useEffect(() => {
   }
 }, [searchParams]);
 
-  /* ================= SETTINGS LOADER ================= */
 
   useEffect(() => {
     if (activeTab === "settings") {
@@ -421,7 +417,6 @@ useEffect(() => {
     localStorage.setItem("activeTab", tab);
   };
 
-  /* ================= MODAL ================= */
 
   const openAddModal = () => {
     setEditingId(null);
@@ -442,7 +437,6 @@ useEffect(() => {
     setIsModalOpen(true);
   };
 
-  /* ================= SUBMIT ================= */
 
   const handleSubmit = async (values: AddressFormValues) => {
     try {
@@ -466,7 +460,6 @@ useEffect(() => {
     }
   };
 
-  /* ================= DELETE ================= */
 
   const handleDelete = async (id: string) => {
     const confirmDelete = confirm("Are you sure you want to delete?");
@@ -482,7 +475,6 @@ useEffect(() => {
     }
   };
 
-  /* ================= UI ================= */
 
   return (
     <>
@@ -655,5 +647,12 @@ useEffect(() => {
         actionLoading={actionLoading}
       />
     </>
+  );
+}
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <PageContent />
+    </Suspense>
   );
 }
