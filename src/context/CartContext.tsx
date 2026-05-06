@@ -19,6 +19,7 @@ const CartContext = createContext<CartContextType>({
 
 export const CartProvider = ({ children }: any) => {
   const [cartCount, setCartCount] = useState(0);
+  
 
   const getCart = async () => {
     try {

@@ -1,22 +1,129 @@
 "use client";
+
+import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import axios from "axios";
 import { Heart, Trash2, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function WishlistPage() {
-  const { wishlist, removeFromWishlist } = useWishlist();
+  const { wishlist, removeFromWishlist, loading , initialized} = useWishlist();
+  const { refreshCart } = useCart();
   const router = useRouter();
 
-  if (wishlist.length === 0) {
+  const [addedId, setAddedId] = useState<string | null>(null);
+
+  // ===== ADD TO CART =====
+  const addToCart = async (productId: string) => {
+    try {
+      await axios.post(
+        "https://ecommerce.routemisr.com/api/v2/cart",
+        { productId },
+        {
+          headers: {
+            token: localStorage.getItem("token") || "",
+          },
+        }
+      );
+
+      toast.success("Added to cart 🛒");
+
+      setAddedId(productId);
+
+      setTimeout(() => {
+        setAddedId("view-" + productId);
+      }, 1000);
+
+      refreshCart();
+    } catch (error) {
+      toast.error("Failed to add ❌");
+    }
+  };
+
+  // ===== SKELETON =====
+  const WishlistSkeleton = () => (
+    <div className="hidden md:block border rounded-xl overflow-hidden animate-pulse">
+      <div className="grid grid-cols-12 px-6 py-3 bg-gray-100 border-b">
+        <div className="col-span-6 h-4 bg-gray-200 rounded w-1/2"></div>
+        <div className="col-span-2 h-4 bg-gray-200 rounded w-10 mx-auto"></div>
+        <div className="col-span-2 h-4 bg-gray-200 rounded w-12 mx-auto"></div>
+        <div className="col-span-2 h-4 bg-gray-200 rounded w-14 mx-auto"></div>
+      </div>
+
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="grid grid-cols-12 px-6 py-4 border-b">
+          <div className="col-span-6 flex gap-4">
+            <div className="w-16 h-16 bg-gray-200 rounded-lg" />
+            <div className="space-y-2 w-full">
+              <div className="h-3 bg-gray-200 rounded w-3/4" />
+              <div className="h-3 bg-gray-200 rounded w-1/2" />
+            </div>
+          </div>
+
+          <div className="col-span-2 flex justify-center">
+            <div className="h-4 w-12 bg-gray-200 rounded" />
+          </div>
+
+          <div className="col-span-2 flex justify-center">
+            <div className="h-4 w-16 bg-gray-200 rounded" />
+          </div>
+
+          <div className="col-span-2 flex justify-center gap-2">
+            <div className="h-8 w-20 bg-gray-200 rounded" />
+            <div className="h-8 w-8 bg-gray-200 rounded" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const MobileSkeleton = () => (
+    <div className="md:hidden space-y-4 animate-pulse">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="border rounded-xl p-4 flex gap-4">
+          <div className="w-20 h-20 bg-gray-200 rounded-lg" />
+          <div className="flex-1 space-y-2">
+            <div className="h-3 bg-gray-200 rounded w-3/4" />
+            <div className="h-3 bg-gray-200 rounded w-1/2" />
+
+            <div className="flex justify-between mt-3">
+              <div className="h-3 w-12 bg-gray-200 rounded" />
+              <div className="h-3 w-16 bg-gray-200 rounded" />
+            </div>
+
+            <div className="flex gap-2 mt-3">
+              <div className="h-8 flex-1 bg-gray-200 rounded" />
+              <div className="h-8 w-8 bg-gray-200 rounded" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // ===== LOADING STATE (IMPORTANT) =====
+  if (loading || !initialized) {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <WishlistSkeleton />
+      <MobileSkeleton />
+    </div>
+  );
+}
+
+
+
+  // ===== EMPTY STATE =====
+  if ( wishlist.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-40 gap-4">
-        <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center">
-          <Heart size={36} className="text-red-300" />
-        </div>
-        <h2 className="text-xl font-semibold text-gray-500">Your wishlist is empty</h2>
+        <Heart size={40} className="text-red-300" />
+        <h2 className="text-gray-500 text-lg">Your wishlist is empty</h2>
         <button
           onClick={() => router.push("/Store/products")}
-          className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition"
+          className="bg-green-600 text-white px-6 py-2 rounded-full"
         >
           Browse Products
         </button>
@@ -24,14 +131,13 @@ export default function WishlistPage() {
     );
   }
 
+  // ===== MAIN UI =====
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto px-4 py-10">
 
-      {/* Header */}
+      {/* HEADER */}
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
-          <Heart size={22} className="fill-red-500 text-red-500" />
-        </div>
+        <Heart className="text-red-500" />
         <div>
           <h2 className="text-2xl font-bold">My Wishlist</h2>
           <p className="text-gray-400 text-sm">
@@ -40,117 +146,135 @@ export default function WishlistPage() {
         </div>
       </div>
 
-      {/* Desktop Table */}
+      {/* ===== DESKTOP ===== */}
       <div className="hidden md:block border rounded-xl overflow-hidden">
-        {/* Table Header */}
-        <div className="grid grid-cols-12 px-6 py-3 bg-gray-50 text-sm text-gray-500 font-medium border-b">
+        <div className="grid grid-cols-12 px-6 py-3 bg-gray-50 text-sm text-gray-500 border-b">
           <div className="col-span-6">Product</div>
           <div className="col-span-2 text-center">Price</div>
           <div className="col-span-2 text-center">Status</div>
           <div className="col-span-2 text-center">Actions</div>
         </div>
 
-        {/* Table Rows */}
-        {wishlist.map((product, index) => (
-          <div
-            key={product._id}
-            className={`grid grid-cols-12 px-6 py-4 items-center ${
-              index !== wishlist.length - 1 ? "border-b" : ""
-            }`}
-          >
-            {/* Product */}
-            <div className="col-span-6 flex items-center gap-4">
-              <div className="w-16 h-16 border rounded-lg overflow-hidden flex-shrink-0">
+        {wishlist.map((product) => {
+          const isAdded = addedId === product._id;
+          const isView = addedId === "view-" + product._id;
+
+          return (
+            <div
+              key={product._id}
+              className="grid grid-cols-12 px-6 py-4 border-b items-center"
+            >
+              {/* product */}
+              <div className="col-span-6 flex gap-4 items-center">
                 <img
                   src={product.imageCover}
-                  alt={product.title}
-                  className="w-full h-full object-contain"
+                  className="w-16 h-16 object-contain border rounded"
                 />
-              </div>
-              <div>
-                <h3 className="font-medium text-sm line-clamp-2">{product.title}</h3>
-                <p className="text-gray-400 text-xs mt-1">{product.category?.name}</p>
-              </div>
-            </div>
-
-            {/* Price */}
-            <div className="col-span-2 text-center font-bold text-sm">
-              {product.price} EGP
-            </div>
-
-            {/* Status */}
-            <div className="col-span-2 flex justify-center">
-              <span className="flex items-center gap-1.5 text-green-600 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-                In Stock
-              </span>
-            </div>
-
-            {/* Actions */}
-            <div className="col-span-2 flex items-center justify-center gap-2">
-              <button className="flex items-center gap-2 bg-green-600 text-white text-xs px-3 py-2 rounded-lg hover:bg-green-700 transition">
-                <ShoppingCart size={14} />
-                Add to Cart
-              </button>
-              <button
-                onClick={() => removeFromWishlist(product._id)}
-                className="w-8 h-8 flex items-center justify-center border rounded-lg text-gray-400 hover:text-red-500 hover:border-red-300 transition cursor-pointer"
-              >
-                <Trash2 size={15} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile Cards */}
-      <div className="flex flex-col gap-4 md:hidden">
-        {wishlist.map((product) => (
-          <div key={product._id} className="border rounded-xl p-4 flex gap-4 items-start">
-            {/* Image */}
-            <div className="w-20 h-20 border rounded-lg overflow-hidden flex-shrink-0">
-              <img
-                src={product.imageCover}
-                alt={product.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-sm line-clamp-2">{product.title}</h3>
-              <p className="text-gray-400 text-xs mt-1">{product.category?.name}</p>
-
-              <div className="flex items-center justify-between mt-3">
-                <span className="font-bold text-sm">{product.price} EGP</span>
-                <span className="flex items-center gap-1 text-green-600 text-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-                  In Stock
-                </span>
+                <div>
+                  <h3 className="text-sm font-medium">{product.title}</h3>
+                  <p className="text-xs text-gray-400">
+                    {product.category?.name}
+                  </p>
+                </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center gap-2 mt-3">
-                <button className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white text-xs px-3 py-2 rounded-lg hover:bg-green-700 transition">
-                  <ShoppingCart size={13} />
-                  Add to Cart
+              {/* price */}
+              <div className="col-span-2 text-center font-bold">
+                {product.price} EGP
+              </div>
+
+              {/* status */}
+              <div className="col-span-2 text-center text-green-600 text-sm">
+                ● In Stock
+              </div>
+
+              {/* actions */}
+              <div className="col-span-2 flex justify-center gap-2">
+                <button
+                  onClick={() =>
+                    isView
+                      ? router.push("/Store/cart")
+                      : addToCart(product._id)
+                  }
+                  className={`px-3 py-2 rounded text-white text-xs flex items-center gap-1 ${
+                    isView
+                      ? "bg-blue-600"
+                      : isAdded
+                      ? "bg-green-500"
+                      : "bg-green-600"
+                  }`}
+                >
+                  <ShoppingCart size={14} />
+                  {isView ? "View Cart" : isAdded ? "Added" : "Add"}
                 </button>
+
                 <button
                   onClick={() => removeFromWishlist(product._id)}
-                  className="w-8 h-8 flex items-center justify-center border rounded-lg text-gray-400 hover:text-red-500 hover:border-red-300 transition cursor-pointer"
+                  className="border p-2 rounded"
                 >
-                  <Trash2 size={15} />
+                  <Trash2 size={14} />
                 </button>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Continue Shopping */}
+      {/* ===== MOBILE ===== */}
+      <div className="md:hidden space-y-4">
+        {wishlist.map((product) => {
+          const isAdded = addedId === product._id;
+          const isView = addedId === "view-" + product._id;
+
+          return (
+            <div key={product._id} className="border rounded-xl p-4 flex gap-4">
+              <img
+                src={product.imageCover}
+                className="w-20 h-20 object-contain"
+              />
+
+              <div className="flex-1">
+                <h3 className="text-sm font-medium">{product.title}</h3>
+                <p className="text-xs text-gray-400">
+                  {product.category?.name}
+                </p>
+
+                <div className="flex justify-between mt-2">
+                  <span className="font-bold text-sm">
+                    {product.price} EGP
+                  </span>
+                  <span className="text-green-600 text-xs">In Stock</span>
+                </div>
+
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() =>
+                      isView
+                        ? router.push("/Store/cart")
+                        : addToCart(product._id)
+                    }
+                    className="flex-1 bg-green-600 text-white text-xs py-2 rounded"
+                  >
+                    {isView ? "View Cart" : isAdded ? "Added" : "Add"}
+                  </button>
+
+                  <button
+                    onClick={() => removeFromWishlist(product._id)}
+                    className="border p-2 rounded"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* continue */}
       <button
         onClick={() => router.push("/Store/products")}
-        className="flex items-center gap-2 text-gray-500 hover:text-green-600 transition mt-6"
+        className="mt-6 flex items-center gap-2 text-gray-500"
       >
         <ArrowLeft size={16} />
         Continue Shopping

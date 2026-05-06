@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useWishlist } from "@/context/WishlistContext";
 import { ChevronDown, MapPin, Settings } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import {
@@ -33,6 +34,7 @@ const Navbar = () => {
   const { user, logout, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
   const [hideTopBar, setHideTopBar] = useState(false);
+  const { wishlist } = useWishlist();
 
   const router = useRouter();
   const [catOpen, setCatOpen] = useState(false);
@@ -256,9 +258,18 @@ const Navbar = () => {
           </div>
 
           <Link href="/Store/wishlist">
-            <Heart className="text-gray-700 hover:text-red-600 cursor-pointer" />
-          </Link>
+             <div className="relative cursor-pointer">
+  <Heart  />
 
+  {wishlist.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+      {wishlist.length}
+    </span>
+  )}
+</div>
+
+          </Link>
+       
         
           <button
             className="relative"

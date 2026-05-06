@@ -19,6 +19,7 @@ import {
   Plus,
   Receipt,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
@@ -53,6 +54,7 @@ type CartData = {
   };
 };
 const Page = () => {
+  const router = useRouter();
   const { resetCart } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -158,7 +160,7 @@ const Page = () => {
         id: loadingToast,
       });
 
-      resetCart(); // 👈 يمسح الرقم من الأيقونة
+      resetCart(); // 👈    
     } catch (error) {
       toast.error("Failed to place order ❌", {
         id: loadingToast,
@@ -635,7 +637,10 @@ const Page = () => {
 
                 {/* BUTTON */}
                 <Button
-                  onClick={handleCheckout}
+                  onClick={async () => {
+  await handleCheckout();
+  router.push("/Store/orders"); //    
+}}
                   className="w-full bg-green-600 hover:bg-green-700 text-white text-lg py-6 rounded-xl cursor-pointer"
                 >
                   Proceed to Payment
