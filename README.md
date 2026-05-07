@@ -8,12 +8,6 @@ A modern **E-Commerce Web Application** built with **Next.js (App Router + TypeS
   </a>
 </div>
 
-<p align="center">
-  🌐 Live Demo:
-  <a href="https://shop-app-eg.netlify.app/" target="_blank">
-    shop-app-eg.netlify.app
-  </a>
-</p>
 
 ---
 
@@ -185,5 +179,3 @@ The application is fully responsive across:
 https://github.com/SamarZeinah/E-commerce.git
 ```
 
-
-Developed by **Samar Zeinah** ✨
