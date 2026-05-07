@@ -1,6 +1,6 @@
 # 🛍️ E-Commerce Store
 
-A modern **E-Commerce Web Application** built with **Next.js (App Router + TypeScript)** featuring authentication, cart & wishlist management, order tracking, profile management, and responsive UI design.
+A modern and fully responsive **E-Commerce Web Application** built with **Next.js (App Router + TypeScript)** featuring secure authentication, dynamic cart & wishlist management, order tracking, profile and address management, reusable UI components, API integration, and a clean scalable architecture for a seamless user experience across all devices.
 
 <div align="center">
   <a href="https://shop-app-eg.netlify.app/" target="_blank">
