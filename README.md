@@ -1,27 +1,136 @@
 # 🛍️ E-Commerce Store
 
-A modern E-Commerce web application built using Next.js App Router, TypeScript, Tailwind CSS, and Context API.  
-The application provides a complete shopping experience including authentication, cart management, wishlist handling, product filtering, order history, and profile management.
+A modern **E-Commerce Web Application** built with **Next.js (App Router + TypeScript)** featuring authentication, cart & wishlist management, order tracking, profile management, and responsive UI design.
+
+<div align="center">
+  <a href="https://shop-app-eg.netlify.app/" target="_blank">
+    <img alt="Live Demo" src="https://img.shields.io/badge/Live_Demo-22c55e?style=for-the-badge&logo=vercel&logoColor=white"/>
+  </a>
+</div>
+
+<p align="center">
+  🌐 Live Demo:
+  <a href="https://shop-app-eg.netlify.app/" target="_blank">
+    shop-app-eg.netlify.app
+  </a>
+</p>
 
 ---
 
-# 🚀 Tech Stack
+## 🚀 Overview
 
-- Next.js 16 (App Router)
-- React 19
-- TypeScript
-- Tailwind CSS
-- Axios
-- Formik
-- Yup
-- JWT Decode
-- React Hot Toast
-- Swiper.js
-- Shadcn/UI
+This application allows users to:
+
+- 🛍️ Browse and filter products  
+- ❤️ Add/remove products from wishlist  
+- 🛒 Manage shopping cart  
+- 🔐 Register & login securely  
+- 🔄 Reset password using verification code  
+- 📦 View order history  
+- 👤 Manage profile and addresses  
+
+The application includes a fully responsive modern UI with reusable components and API integration.
 
 ---
 
-# 📂 Project Structure
+## ✨ Features
+
+### 👤 User Features
+
+- Authentication system  
+- Forgot/reset password flow  
+- Products filtering by category & brand  
+- Shopping cart management  
+- Wishlist system  
+- Orders history  
+- Address management  
+- Profile settings  
+- Responsive design  
+- Toast notifications  
+
+---
+
+## 🔐 Authentication Features
+
+- Register  
+- Login  
+- Logout  
+- Forgot Password  
+- Verify Reset Code  
+- Reset Password  
+
+Authentication token and user data are stored using `localStorage`.
+
+---
+
+## 🔄 Reset Password Flow
+
+The application supports a complete password recovery flow:
+
+- Send reset code via email  
+- Verify reset code  
+- Create new password securely  
+
+---
+
+## 🛒 Cart Features
+
+- Add products to cart  
+- Increase/decrease quantity  
+- Refresh cart count  
+- Reset cart state  
+
+---
+
+## ❤️ Wishlist Features
+
+- Add product to wishlist  
+- Remove product from wishlist  
+- Sync wishlist with API  
+- Instant UI updates  
+
+---
+
+## 📦 Orders Features
+
+- Fetch user orders using JWT token  
+- Expandable order cards  
+- Products summary inside each order  
+
+---
+
+## 👤 Profile Features
+
+### 📍 Addresses
+
+- Add address  
+- Edit address  
+- Delete address  
+
+### ⚙️ Settings
+
+- Profile information form  
+- Change password form  
+
+---
+
+## 🛠️ Tech Stack
+
+- Next.js 16 (App Router)  
+- React 19  
+- TypeScript  
+- Tailwind CSS  
+- Axios  
+- Formik  
+- Yup  
+- JWT Decode  
+- React Hot Toast  
+- Swiper.js  
+- Shadcn/UI  
+
+---
+
+## 📂 Project Structure
 
 ```bash
 src/
@@ -47,289 +156,34 @@ src/
 
 ---
 
-# 🔐 Authentication System
+## 🎨 UI Features
 
-The application supports:
-
-- Register
-- Login
-- Logout
-- Forgot Password
-- Verify Reset Code
-- Reset Password
-
-Authentication token and user data are stored in localStorage.
+- Modern responsive design  
+- Skeleton loading states  
+- Toast notifications  
+- Reusable components  
+- Clean UI architecture  
+- Client Components support  
 
 ---
 
-# 🔄 Reset Password Flow
-
-## 1️⃣ Forgot Password
-
-The user enters their email address.
-
-### API
-
-```bash
-POST /auth/forgotPasswords
-```
-
-A verification code is sent to the user's email.
-
----
-
-## 2️⃣ Verify Reset Code
-
-The user enters the verification code.
-
-### API
-
-```bash
-POST /auth/verifyResetCode
-```
-
-After successful verification:
-
-- resetCode is stored in localStorage
-- User is redirected to:
-
-```bash
-/Authentication/reset-password
-```
-
----
-
-## 3️⃣ Reset Password
-
-The user enters:
-
-- Email
-- New Password
-
-### API
-
-```bash
-PUT /auth/resetPassword
-```
-
-### Payload
-
-```json
-{
-  "email": "user@example.com",
-  "newPassword": "123456",
-  "code": "123456"
-}
-```
-
-After success:
-
-- Token is stored
-- User data is stored
-- Redirect to home page
-
----
-
-# 🛒 Cart System
-
-## Features
-
-- Add product to cart
-- Increase/decrease quantity
-- Refresh cart count
-- Reset cart
-
-### Context
-
-```ts
-CartContext
-```
-
-Cart data is synced with API using Axios.
-
----
-
-# ❤️ Wishlist System
-
-## Features
-
-- Add to wishlist
-- Remove from wishlist
-- Fetch wishlist products
-
-### Context
-
-```ts
-WishlistContext
-```
-
-Wishlist IDs are also stored locally for faster UI updates.
-
----
-
-# 🛍️ Products Page
-
-## Features
-
-- Product listing
-- Category filtering
-- Brand filtering
-- Add to cart
-- Add/remove wishlist
-
-### Filtering Examples
-
-```bash
-/products?brand=...
-```
-
-```bash
-/products?category[in]=...
-```
-
----
-
-# 📦 Orders Page
-
-The application fetches user orders using decoded JWT token.
-
-### API
-
-```bash
-GET /orders/user/{userId}
-```
-
-## Features
-
-- Order cards
-- Expandable order details
-- Product summary
-
----
-
-# 👤 Profile Page
-
-Contains two main sections:
-
-- Addresses
-- Settings
-
----
-
-## 📍 Addresses
-
-### Features
-
-- Add address
-- Edit address
-- Delete address
-
-### APIs
-
-```bash
-GET /addresses
-POST /addresses
-PUT /addresses/:id
-DELETE /addresses/:id
-```
-
-### Components
-
-```ts
-AddressModal
-```
-
----
-
-## ⚙️ Settings
-
-Contains:
-
-- Profile Information Form
-- Change Password Form
-
----
-
-# 🌐 Axios Configuration
-
-Centralized Axios instance:
-
-```ts
-baseURL = https://ecommerce.routemisr.com/api/v1
-```
-
-Interceptor automatically injects:
-
-```ts
-headers.token
-```
-
-from localStorage.
-
----
-
-# 🎨 UI Features
-
-- Responsive Design
-- Skeleton Loading
-- Toast Notifications
-- Reusable Components
-- Clean Modern UI
-- Client Components Architecture
-
----
-
-# 📱 Responsive Design
+## 📱 Responsive Design
 
 The application is fully responsive across:
 
-- Mobile
-- Tablet
-- Desktop
+- Mobile  
+- Tablet  
+- Desktop  
 
 ---
 
-# ▶️ Getting Started
+## 🚀 Getting Started
 
-## Install dependencies
-
-```bash
-npm install
-```
-
-## Run development server
+### Clone Repository
 
 ```bash
-npm run dev
+https://github.com/SamarZeinah/E-commerce.git
 ```
 
-## Build project
 
-```bash
-npm run build
-```
-
----
-
-# 🔗 API Base URL
-
-```bash
-https://ecommerce.routemisr.com/api/v1
-```
-
----
-
-# 📸 Screenshots
-
-Add screenshots here for:
-
-- Home Page
-- Products Page
-- Cart Page
-- Wishlist Page
-- Orders Page
-- Profile Page
-- Authentication Pages
-
----
-
+Developed by **Samar Zeinah** ✨
