@@ -7,10 +7,10 @@ import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from "next/navigation";
 
-import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from "yup";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useState } from 'react';
 
 
 
@@ -19,7 +19,7 @@ type ForgetValues = {
 };
 
 const page = () => {
-
+const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -33,23 +33,36 @@ const page = () => {
       email: ""
 
     },
-    onSubmit: async (values: ForgetValues) => {
-      console.log(values);
-      try {
-        const { data } = await axiosInstance.post("/auth/forgotPasswords", values);
+   onSubmit: async (values: ForgetValues) => {
 
-        toast.success(" successfully 🎉");
-        router.push("/Authentication/verify-reset-code");
-        console.log(data);
-        localStorage.setItem("email", values.email);
-      } catch (error) {
-        const err = error as AxiosError<{ message: string }>;
+  setIsLoading(true);
 
-        toast.error(err.response?.data?.message || "Something went wrong ❌");
-        console.log(error);
-      }
-    },
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/forgotPasswords",
+      values
+    );
 
+    toast.success("Reset code sent successfully 🎉");
+
+    localStorage.setItem("email", values.email);
+
+    router.push("/Authentication/verify-reset-code");
+
+    console.log(data);
+
+  } catch (error) {
+
+    const err = error as AxiosError<{ message: string }>;
+
+    toast.error(err.response?.data?.message || "Something went wrong ❌");
+
+    console.log(error);
+
+  } finally {
+    setIsLoading(false);
+  }
+},
     validationSchema,
   });
 
@@ -103,11 +116,19 @@ const page = () => {
 
 
         <Button
-          type="submit"
-          className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer"
-        >
-          Send Reset Code
-        </Button>
+  type="submit"
+  disabled={isLoading}
+  className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+>
+  {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <Loader2 className="w-5 h-5 animate-spin" />
+      Sending code...
+    </span>
+  ) : (
+    "Send Reset Code"
+  )}
+</Button>
       </form>
 
       <a

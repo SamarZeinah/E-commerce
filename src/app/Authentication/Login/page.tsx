@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/lib/axios";
 import axios, { AxiosError } from "axios";
@@ -16,6 +17,7 @@ type SigninValues = {
   password: string;
 };
 const page = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { login} = useAuth();
     const validationSchema = Yup.object({
@@ -34,22 +36,28 @@ const page = () => {
       password: "",
     },
 
-    onSubmit: async (values: SigninValues) => {
-      console.log(values);
-      try {
-        const { data } = await axiosInstance.post("/auth/signin", values);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        login(data.token, data.user);
-        toast.success("logged in successfully 🎉");
-        router.push("/");
-        console.log(data);
-      } catch (error) {
-        const err = error as AxiosError<{ message: string }>;
+   onSubmit: async (values: SigninValues) => {
+  setIsLoading(true);
 
-        toast.error(err.response?.data?.message || "Something went wrong ❌");
-        console.log(error);
-      }
+  try {
+    const { data } = await axiosInstance.post("/auth/signin", values);
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    login(data.token, data.user);
+
+    toast.success("Logged in successfully 🎉");
+
+    router.push("/");
+  } catch (error) {
+    const err = error as AxiosError<{ message: string }>;
+
+    toast.error(err.response?.data?.message || "Something went wrong ❌");
+  } finally {
+    setIsLoading(false);
+  }
+
     },
 
     validationSchema,
@@ -156,7 +164,7 @@ const page = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[40px] text-gray-500"
+            className="cursor-pointer absolute right-3 top-[40px] text-gray-500"
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -169,12 +177,20 @@ const page = () => {
             )}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer"
-        >
-          Sign in
-        </Button>
+       <Button
+  type="submit"
+  disabled={isLoading}
+  className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+>
+  {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <Loader2 className="w-5 h-5 animate-spin" />
+      Signing in...
+    </span>
+  ) : (
+    "Sign in"
+  )}
+</Button>
       </form>
       <p className="text-center text-sm text-gray-600 mt-4">
         New to FreshCart?{" "}

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import axiosInstance from "@/lib/axios";
 import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
@@ -17,6 +17,7 @@ type SignupValues = {
   phone: string;
 };
 const page = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
 
@@ -46,20 +47,25 @@ const page = () => {
       phone: "",
     },
 
-    onSubmit: async (values: SignupValues) => {
-      console.log(values);
-      try {
-        const { data } = await axiosInstance.post("/auth/signup", values);
+ onSubmit: async (values: SignupValues) => {
+  setIsLoading(true);
 
-        toast.success("Account created successfully 🎉");
-        console.log(data);
-      } catch (error) {
-        const err = error as AxiosError<{ message: string }>;
+  try {
+    const { data } = await axiosInstance.post("/auth/signup", values);
 
-        toast.error(err.response?.data?.message || "Something went wrong ❌");
-        console.log(error);
-      }
-    },
+    toast.success("Account created successfully 🎉");
+
+    console.log(data);
+  } catch (error) {
+    const err = error as AxiosError<{ message: string }>;
+
+    toast.error(err.response?.data?.message || "Something went wrong ❌");
+
+    console.log(error);
+  } finally {
+    setIsLoading(false);
+  }
+},
 
     validationSchema,
   });
@@ -169,7 +175,7 @@ const page = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[40px] text-gray-500"
+            className="cursor-pointer absolute right-3 top-[40px] text-gray-500"
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -200,7 +206,7 @@ const page = () => {
           <button
             type="button"
             onClick={() => setShowRePassword(!showRePassword)}
-            className="absolute right-3 top-[40px] text-gray-500"
+            className="cursor-pointer absolute right-3 top-[40px] text-gray-500"
           >
             {showRePassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -233,12 +239,20 @@ const page = () => {
               </p>
             )}
         </div>
-        <Button
-          type="submit"
-          className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer"
-        >
-          Create My Account
-        </Button>
+       <Button
+  type="submit"
+  disabled={isLoading}
+  className="w-full h-11 text-base font-medium bg-[#16A34A] hover:bg-[#12833A] transition-colors duration-200 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+>
+  {isLoading ? (
+    <span className="flex items-center justify-center gap-2">
+      <Loader2 className="w-5 h-5 animate-spin" />
+      Creating account...
+    </span>
+  ) : (
+    "Create My Account"
+  )}
+</Button>
       </form>
       <p className="text-center text-sm text-gray-600 mt-4">
         Already have an account?{" "}

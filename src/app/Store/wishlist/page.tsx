@@ -188,33 +188,7 @@ export default function WishlistPage() {
                 ● In Stock
               </div>
 
-              {/* actions */}
-              {/* <div className="col-span-2 flex justify-center gap-2">
-                <button
-                  onClick={() =>
-                    isView
-                      ? router.push("/Store/cart")
-                      : addToCart(product._id)
-                  }
-                  className={`px-3 py-2 rounded text-white text-xs flex items-center gap-1 cursor-pointer ${
-                    isView
-                      ? "bg-blue-600"
-                      : isAdded
-                      ? "bg-green-500"
-                      : "bg-green-600"
-                  }`}
-                >
-                  <ShoppingCart size={14} />
-                  {isView ? "View Cart" : isAdded ? "Added" : "Add"}
-                </button>
-
-                <button
-                  onClick={() => removeFromWishlist(product._id)}
-                  className="border p-2 rounded cursor-pointer"
-                >
-                  <Trash2 size={14} />
-                </button>
-              </div> */}
+             
               <div className="col-span-2 flex justify-center gap-2">
   <button
     onClick={() =>

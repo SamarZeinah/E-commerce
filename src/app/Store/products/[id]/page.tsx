@@ -25,6 +25,7 @@ import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
+import Link from "next/link";
 
 type Product = {
   _id: string;
@@ -326,7 +327,7 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* Buttons */}
-            <div className="mt-8 flex gap-4 w-full">
+            {/* <div className="mt-8 flex gap-4 w-full">
               <button className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
                 <ShoppingCart />
                 Add to Cart
@@ -335,13 +336,46 @@ export default function ProductDetailsPage() {
               <button className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
                 Buy Now
               </button>
-            </div>
+            </div> */}
+
+
 
             {/* Wishlist */}
-            <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition">
+            {/* <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition">
               <Heart size={18} />
               Add to Wishlist
-            </button>
+            </button> */}
+
+            {/* Buttons */}
+<div className="mt-8 flex gap-4 w-full">
+  <button
+    onClick={() => addToCart(product._id)}  // ✅ ربط الفانكشن
+    className="cursor-pointer flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+  >
+    <ShoppingCart />
+    Add to Cart
+  </button>
+
+  <Link href="/Store/products" className="cursor-pointer flex-1 flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition">
+    Buy Now
+  </Link>
+</div>
+
+{/* Wishlist */}
+<button
+  onClick={() =>
+    isInWishlist(product._id)
+      ? removeFromWishlist(product._id)
+      : addToWishlist(product._id)
+  }  
+  className="cursor-pointer mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition"
+>
+  <Heart
+    size={18}
+    className={isInWishlist(product._id) ? "fill-red-500 text-red-500" : ""} 
+  />
+  {isInWishlist(product._id) ? "Remove from Wishlist" : "Add to Wishlist"}  
+</button>
 
             {/* Features */}
             <div className="mt-6 border rounded-xl p-4 bg-gray-50 flex flex-col md:flex-row gap-4">

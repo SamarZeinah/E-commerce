@@ -9,8 +9,40 @@ import {
   ShieldCheck,
   Headset,
 } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
+  const account = [
+  { name: "My Account", path: "/Store/Profile" },
+  { name: "Order History", path: "/Store/orders" },
+  { name: "Wishlist", path: "/Store/wishlist" },
+  { name: "Shopping Cart", path: "/Store/cart" },
+  { name: "Sign In", path: "/Authentication/Login" },
+  { name: "Create Account", path: "/" },
+];
+
+const shopLinks = [
+  { name: "All Products", path: "/Store/products" },
+
+  { name: "Categories", path: "/Store/categories" },
+
+  { name: "Brands", path: "/Store/brands" },
+
+  {
+    name: "Electronics",
+    path: "/Store/products?category=6439d2d167d9aa4ca970649f",
+  },
+
+  {
+    name: "Men's Fashion",
+    path: "/Store/products?category=6439d5b90049ad0b52b90048",
+  },
+
+  {
+    name: "Women's Fashion",
+    path: "/Store/products?category=6439d58a0049ad0b52b9003f",
+  },
+];
   const features = [
     {
       title: "Free Shipping",
@@ -118,29 +150,27 @@ transition duration-300 transform hover:scale-110 hover:-translate-y-1"
           </div>
 
           {/* Shop */}
+      
+
           <div>
-            <h3 className="text-white font-semibold mb-3">Shop</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                "All Products",
-                "Categories",
-                "Brands",
-                "Electronics",
-                "Men's Fashion",
-                "Women's Fashion",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="hover:text-[#16A34A] cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+  <h3 className="text-white font-semibold mb-3">Shop</h3>
+
+  <ul className="space-y-2 text-sm">
+    {shopLinks.map((item, i) => (
+      <li key={i}>
+        <Link
+          href={item.path}
+          className="hover:text-[#16A34A] cursor-pointer transition"
+        >
+          {item.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Account */}
-          <div>
+          {/* <div>
             <h3 className="text-white font-semibold mb-3">Account</h3>
             <ul className="space-y-2 text-sm">
               {[
@@ -159,7 +189,24 @@ transition duration-300 transform hover:scale-110 hover:-translate-y-1"
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
+
+                    <div>
+  <h3 className="text-white font-semibold mb-3">Shop</h3>
+
+  <ul className="space-y-2 text-sm">
+    {account.map((item, i) => (
+      <li key={i}>
+        <Link
+          href={item.path}
+          className="hover:text-[#16A34A] cursor-pointer transition"
+        >
+          {item.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Support */}
           <div>
