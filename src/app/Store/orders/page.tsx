@@ -117,7 +117,7 @@ function OrderCard({ order }: { order: Order }) {
           </p>
           <button
             onClick={() => setOpen(!open)}
-            className="text-sm text-green-600 border border-green-200 px-3 py-1.5 rounded-lg hover:bg-green-50 transition flex items-center gap-1 font-medium"
+            className="text-sm text-green-600 border border-green-200 px-3 py-1.5 rounded-lg hover:bg-green-50 transition flex items-center gap-1 font-medium cursor-pointer"
           >
             {open ? (
               <>Hide <ChevronUp size={14} /></>

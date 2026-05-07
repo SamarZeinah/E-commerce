@@ -189,14 +189,14 @@ export default function WishlistPage() {
               </div>
 
               {/* actions */}
-              <div className="col-span-2 flex justify-center gap-2">
+              {/* <div className="col-span-2 flex justify-center gap-2">
                 <button
                   onClick={() =>
                     isView
                       ? router.push("/Store/cart")
                       : addToCart(product._id)
                   }
-                  className={`px-3 py-2 rounded text-white text-xs flex items-center gap-1 ${
+                  className={`px-3 py-2 rounded text-white text-xs flex items-center gap-1 cursor-pointer ${
                     isView
                       ? "bg-blue-600"
                       : isAdded
@@ -210,11 +210,35 @@ export default function WishlistPage() {
 
                 <button
                   onClick={() => removeFromWishlist(product._id)}
-                  className="border p-2 rounded"
+                  className="border p-2 rounded cursor-pointer"
                 >
                   <Trash2 size={14} />
                 </button>
-              </div>
+              </div> */}
+              <div className="col-span-2 flex justify-center gap-2">
+  <button
+    onClick={() =>
+      isView ? router.push("/Store/cart") : addToCart(product._id)
+    }
+    className={`px-3 py-2 rounded text-white text-xs flex items-center gap-1 cursor-pointer transition-all duration-200 hover:scale-[1.03] hover:shadow-md ${
+      isView
+        ? "bg-blue-600 hover:bg-blue-700"
+        : isAdded
+        ? "bg-green-500 hover:bg-green-600"
+        : "bg-green-600 hover:bg-green-700"
+    }`}
+  >
+    <ShoppingCart size={14} />
+    {isView ? "View Cart" : isAdded ? "Added" : "Add"}
+  </button>
+
+  <button
+    onClick={() => removeFromWishlist(product._id)}
+    className="border p-2 rounded cursor-pointer transition-all duration-200 hover:bg-red-50 hover:border-red-300 hover:text-red-500 hover:shadow-sm"
+  >
+    <Trash2 size={14} />
+  </button>
+</div>
             </div>
           );
         })}
