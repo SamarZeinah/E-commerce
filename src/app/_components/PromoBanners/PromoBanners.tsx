@@ -1,6 +1,9 @@
 "use client";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 const PromoBanners = () => {
+    const router = useRouter();
+
   return (
     <div className="px-4 md:px-10 pt-20 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -23,7 +26,8 @@ const PromoBanners = () => {
               Use code:<span className="font-bold">ORGANIC40</span>{" "}
             </span>
           </div>
-          <button className="mt-5 inline-flex items-center gap-2 bg-white text-green-600 px-5 py-2 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:translate-x-1">
+          <button className="mt-5 inline-flex items-center gap-2 bg-white text-green-600 px-5 py-2 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:translate-x-1 cursor-pointer"
+           onClick={() => router.push("/Store/products")}>
             Shop Now
             <ArrowRight />
           </button>
@@ -49,7 +53,8 @@ const PromoBanners = () => {
               Use code:<span className="font-bold">FRESH25</span>{" "}
             </span>
           </div>
-          <button className="mt-5 inline-flex items-center gap-2 bg-white text-[#FF2056] px-5 py-2 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:translate-x-2">
+          <button className="mt-5 inline-flex items-center gap-2 bg-white text-[#FF2056] px-5 py-2 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:translate-x-2 cursor-pointer"
+           onClick={() => router.push("/Store/products")}>
             Explore Now
             <ArrowRight />
           </button>

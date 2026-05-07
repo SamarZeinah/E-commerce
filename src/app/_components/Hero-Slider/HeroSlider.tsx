@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const slides = [
   {
@@ -33,6 +34,8 @@ const slides = [
 ];
 
 export default function HeroSlider() {
+    const router = useRouter();
+
   return (
     <div className="w-full  relative">
       <Swiper
@@ -71,6 +74,7 @@ export default function HeroSlider() {
                       <button
                         className="bg-white text-[#00C950] px-6 py-2 rounded-md font-medium 
                         hover:scale-105 transition cursor-pointer"
+                         onClick={() => router.push("/Store/products")}
                       >
                         {slide.btn1}
                       </button>
@@ -78,7 +82,7 @@ export default function HeroSlider() {
                       <button
                         className="border border-white text-white px-6 py-2 rounded-md 
                         hover:bg-white hover:text-[#00C950] transition cursor-pointer"
-                      >
+                       onClick={() => router.push("/Store/products")}>
                         {slide.btn2}
                       </button>
                     </div>

@@ -110,7 +110,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import axiosInstance from "@/lib/axios";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type Category = {
   _id: string;
@@ -154,6 +154,7 @@ const CategoriesSection = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
 
   const hideHeaderRoutes = ["/Store/categories"];
   const isCategoriesPage = hideHeaderRoutes.includes(pathname);
@@ -177,7 +178,6 @@ const CategoriesSection = () => {
   return (
     <div className="px-4 md:px-10 pt-20 max-w-7xl mx-auto p-4">
 
-      {/* Header — بيظهر بس في الهوم */}
       {!isCategoriesPage && (
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
           <div className="flex items-center gap-3">
@@ -186,7 +186,8 @@ const CategoriesSection = () => {
               Shop By <span className="text-[#009966]">Category</span>
             </h2>
           </div>
-          <button className="group flex items-center gap-2 text-[#009966] font-medium transition-transform duration-300 hover:translate-x-2">
+          <button className="group flex items-center gap-2 text-[#009966] font-medium transition-transform duration-300 hover:translate-x-2 cursor-pointer"
+           onClick={() => router.push("/Store/categories")}>
             View All Categories
             <ArrowRight />
           </button>

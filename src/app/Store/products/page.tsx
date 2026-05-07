@@ -720,7 +720,7 @@ const categoryId = searchParams?.get("category");
                     await addToCart(product._id);
                     setLoadingCartId(null);
                   }}
-                  className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center"
+                  className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center cursor-pointer"
                 >
                   {loadingCartId === product._id ? (
                     <span className="animate-spin">

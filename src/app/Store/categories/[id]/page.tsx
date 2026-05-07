@@ -77,7 +77,7 @@ export default function SubcategoriesPage() {
         {/* Back Button */}
         <button
           onClick={() => router.push("/Store/categories")}
-          className="flex items-center gap-2 text-gray-600 hover:text-[#009966] transition mb-6"
+          className="flex items-center gap-2 text-gray-600 hover:text-[#009966] transition mb-6 cursor-pointer"
         >
           <ArrowLeft size={18} />
           <span>Back to Categories</span>
