@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
-import { useAuth } from "@/context/AuthContext"; // ✅ استيراد الـ AuthContext
+import { useAuth } from "@/context/AuthContext"; 
 
 type WishlistItem = {
   _id: string;

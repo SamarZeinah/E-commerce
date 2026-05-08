@@ -170,27 +170,6 @@ transition duration-300 transform hover:scale-110 hover:-translate-y-1"
 </div>
 
           {/* Account */}
-          {/* <div>
-            <h3 className="text-white font-semibold mb-3">Account</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                "My Account",
-                "Order History",
-                "Wishlist",
-                "Shopping Cart",
-                "Sign In",
-                "Create Account",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="hover:text-[#16A34A] cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div> */}
-
                     <div>
   <h3 className="text-white font-semibold mb-3">Shop</h3>
 
